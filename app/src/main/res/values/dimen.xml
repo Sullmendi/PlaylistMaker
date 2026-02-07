@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="distance16">16dp</dimen>
+    <dimen name="text16">16sp</dimen>
+    <dimen name="tsize_22">22sp</dimen>
+</resources>
