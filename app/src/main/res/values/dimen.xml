@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="distance_sexteen">16dp</dimen>
-    <dimen name="text_sexteen">16sp</dimen>
-    <dimen name="text_twenty_two">22sp</dimen>
-    <dimen name="distance_eight">8dp</dimen>
-    <dimen name="distance_twelve">12dp</dimen>
-</resources>
