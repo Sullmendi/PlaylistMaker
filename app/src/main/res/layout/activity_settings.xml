@@ -19,9 +19,9 @@
             android:layout_width="48dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
-            app:icon="@drawable/arrow_left"
+            app:icon="@drawable/ic_back_arrow_24"
             app:iconTint="@color/black"
-            android:layout_gravity="center"
+            android:paddingHorizontal="12dp"
             style="?android:attr/borderlessButtonStyle"
             android:contentDescription="@string/button_back"
             android:id="@+id/button_arrow"
@@ -32,9 +32,9 @@
             android:layout_height="wrap_content"
             android:text="@string/settings"
             android:textColor="@color/black"
-            android:textSize="@dimen/tsize_22"
+            android:textSize="@dimen/text_twenty_two"
             android:layout_gravity="center_vertical"
-            android:fontFamily="@font/ysdisplay"            />
+            android:fontFamily="@font/ysdisplay"/>
     </LinearLayout>
 
     <FrameLayout
@@ -46,10 +46,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:paddingStart="@dimen/distance16"
+            android:paddingStart="@dimen/distance_sexteen"
             android:text="@string/dark_theme"
             android:textColor="@color/black"
-            android:textSize="@dimen/text16"
+            android:textSize="@dimen/text_sexteen"
             android:fontFamily="@font/ysdisplay"/>
 
         <Switch
@@ -70,18 +70,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:paddingStart="@dimen/distance16"
+            android:paddingStart="@dimen/distance_sexteen"
             android:text="@string/sharring"
             android:textColor="@color/black"
-            android:textSize="@dimen/text16"
+            android:textSize="@dimen/text_sexteen"
             android:fontFamily="@font/ysdisplay"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/sharring"
+            android:src="@drawable/ic_sharing_24"
             android:layout_gravity="center_vertical|end"
-            android:paddingEnd="18dp"
+            android:paddingEnd="@dimen/distance_twelve"
             android:contentDescription="@string/sharring"
             />
 
@@ -94,18 +94,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:paddingStart="@dimen/distance16"
+            android:paddingStart="@dimen/distance_sexteen"
             android:text="@string/support"
             android:textColor="@color/black"
-            android:textSize="@dimen/text16"
+            android:textSize="@dimen/text_sexteen"
             android:fontFamily="@font/ysdisplay"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/support"
+            android:src="@drawable/ic_support_24"
             android:layout_gravity="center_vertical|end"
-            android:paddingEnd="14dp"
+            android:paddingEnd="@dimen/distance_twelve"
             android:contentDescription="@string/support"
             />
 
@@ -118,18 +118,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:paddingStart="@dimen/distance16"
+            android:paddingStart="@dimen/distance_sexteen"
             android:text="@string/personal_agreement"
             android:textColor="@color/black"
-            android:textSize="@dimen/text16"
+            android:textSize="@dimen/text_sexteen"
             android:fontFamily="@font/ysdisplay"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/arrow_right"
+            android:src="@drawable/ic_arrow_right_24"
             android:layout_gravity="center_vertical|end"
-            android:paddingEnd="20dp"
+            android:paddingEnd="@dimen/distance_twelve"
             android:contentDescription="@string/personal_agreement"
             />
 
