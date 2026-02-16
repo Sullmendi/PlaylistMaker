@@ -8,5 +8,13 @@
     <string name="support">Написать в поддержку</string>
     <string name="personal_agreement">Пользовательское соглашение</string>
     <string name="button_back">Кнопка назад</string>
-
+    <string name="url_android_class" translatable="false">https://practicum.yandex.ru/profile/android-developer/?from=profile_subscriptions-with-prof-recommendations</string>
+    <string name="share_message">Отправить через:</string>
+    <string name="my_email" translatable="false">svetictv@mail.ru</string>
+    <string name="mail_theme">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="mail_text">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="url_personal_agreement" translatable="false">https://yandex.ru/legal/practicum_offer/ru/</string>
+    <string name="mail_not_found">Приложения почты не найдено</string>
+    <string name="search_text">Поиск</string>
+    <string name="clear_button">Кнопка очистки</string>
 </resources>
