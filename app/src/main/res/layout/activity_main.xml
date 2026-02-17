@@ -25,7 +25,6 @@
 
     <Button
         android:id="@+id/search_sign"
-
         style="@style/mainButtonStyle"
         android:layout_marginTop="24dp"
         app:icon="@drawable/ic_search_sign_24"

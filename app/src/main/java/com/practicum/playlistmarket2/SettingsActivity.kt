@@ -17,8 +17,8 @@ import androidx.core.net.toUri
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_settings)
+
 
         val buttonBack = findViewById<Button>(R.id.button_arrow)
         buttonBack.setOnClickListener {
@@ -77,4 +77,4 @@ class SettingsActivity : AppCompatActivity() {
 
         startActivity(personalAgreementIntent)
     }
-    }
+}

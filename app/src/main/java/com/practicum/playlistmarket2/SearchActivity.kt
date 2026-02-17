@@ -14,8 +14,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.doOnTextChanged
+
 class SearchActivity : AppCompatActivity() {
-    private var personText: String = ""
+    var savedPersonText: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,26 +38,14 @@ class SearchActivity : AppCompatActivity() {
             inputMethodManager?.hideSoftInputFromWindow(searchEditText.windowToken, 0)
         }
 
-        val simpleTextWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // empty
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                clearButton.visibility = clearButtonVisibility(s)
-                personText = s.toString()
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-
-            }
+        searchEditText.doOnTextChanged { text, start, before, count ->
+            clearButton.visibility = clearButtonVisibility(text)
+            savedPersonText = text.toString()
         }
-        searchEditText.addTextChangedListener(simpleTextWatcher)
-
 
         if (savedInstanceState != null) {
-            personText = savedInstanceState.getString("SEARCH_TEXT").toString()
-            searchEditText.setText(personText)
+            savedPersonText = savedInstanceState.getString(SEARCH_TEXT).toString()
+            searchEditText.setText(savedPersonText)
         }
 
 
@@ -63,15 +53,20 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle){
         super.onSaveInstanceState(outState)
-        outState.putString("SEARCH_TEXT",personText)
+        outState.putString(SEARCH_TEXT,savedPersonText)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle){
         super.onRestoreInstanceState(savedInstanceState)
-        personText = savedInstanceState.getString("SEARCH_TEXT","")
+        savedPersonText = savedInstanceState.getString(SEARCH_TEXT,"")
         val searchEditText = findViewById<EditText>(R.id.search_edit_text)
-        searchEditText.setText(personText)
+        searchEditText.setText(savedPersonText)
         }
+
+    companion object {
+        const val SEARCH_TEXT = "SEARCH_TEXT"
+    }
+
 
     }
 
