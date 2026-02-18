@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_activity"
+    android:background="?attr/colorPrimary"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            app:icon="@drawable/ic_back_arrow_24"
+            style="@style/buttonBack"
+            android:contentDescription="@string/button_back"
+            android:id="@+id/button_arrow"
+            />
+
+        <TextView
+            android:text="@string/settings"
+            style="@style/startTextUpOnPage"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_marginTop="24dp"
+        style="@style/settingPoint">
+
+        <TextView
+            style="@style/settingTextPoint"
+            android:text="@string/dark_theme" />
+
+        <Switch
+            android:id="@+id/simpleSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical|end"
+            android:checked="true"
+            android:paddingEnd="6dp"
+            tools:ignore="UseSwitchCompatOrMaterialXml"/>
+
+    </FrameLayout>
+    <FrameLayout
+        style="@style/settingPoint"
+        android:id="@+id/share_app">
+
+        <TextView
+            style="@style/settingTextPoint"
+            android:text="@string/sharring" />
+
+        <ImageView
+            style="@style/settingIcPoint"
+            android:src="@drawable/ic_sharing_24"
+            android:contentDescription="@string/sharring"
+            />
+
+    </FrameLayout>
+    <FrameLayout
+        style="@style/settingPoint"
+        android:id="@+id/message_to_support">
+
+        <TextView
+            style="@style/settingTextPoint"
+            android:text="@string/support" />
+
+        <ImageView
+            style="@style/settingIcPoint"
+            android:src="@drawable/ic_support_24"
+            android:contentDescription="@string/support"
+            />
+
+    </FrameLayout>
+    <FrameLayout
+        style="@style/settingPoint"
+        android:id="@+id/personal_agreement">
+
+        <TextView
+            style="@style/settingTextPoint"
+            android:text="@string/personal_agreement" />
+
+        <ImageView
+            style="@style/settingIcPoint"
+            android:src="@drawable/ic_arrow_right_24"
+            android:contentDescription="@string/personal_agreement"
+            />
+
+    </FrameLayout>
+
+</LinearLayout>
