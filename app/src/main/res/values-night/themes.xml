@@ -5,4 +5,5 @@
         <item name="colorControlActivated">@color/blue</item>
         <item name="colorSwitchThumbNormal">@color/black</item>
     </style>
+    <style name="Theme.PlaylistMarket2" parent="Base.Theme.PlaylistMarket2" />
 </resources>
