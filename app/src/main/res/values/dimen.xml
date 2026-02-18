@@ -5,5 +5,7 @@
     <dimen name="text_twenty_two">22sp</dimen>
     <dimen name="distance_eight">8dp</dimen>
     <dimen name="distance_twelve">12dp</dimen>
+    <dimen name="distance_forteen">14dp</dimen>
+    <dimen name="distance_forty_eight">48dp</dimen>
 
 </resources>
