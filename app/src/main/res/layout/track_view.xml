@@ -2,7 +2,6 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginTop="@dimen/distance_sexteen"
     style="@style/settingPoint"
     android:background="?attr/colorPrimary"
     android:orientation="horizontal">
