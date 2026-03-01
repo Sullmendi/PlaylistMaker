@@ -31,12 +31,13 @@ class SearchActivity : AppCompatActivity() {
         }
 
 
-        val trackList: MutableList<Track> = mutableListOf()
-        trackList.add(Track(getString(R.string.trackName1), getString(R.string.artictName1), getString(R.string.trackTime1), getString(R.string.artworkUrl1)))
-        trackList.add(Track(getString(R.string.trackName2), getString(R.string.artictName2), getString(R.string.trackTime2), getString(R.string.artworkUrl2)))
-        trackList.add(Track(getString(R.string.trackName3), getString(R.string.artictName3), getString(R.string.trackTime3), getString(R.string.artworkUrl3)))
-        trackList.add(Track(getString(R.string.trackName4), getString(R.string.artictName4), getString(R.string.trackTime4), getString(R.string.artworkUrl4)))
-        trackList.add(Track(getString(R.string.trackName5), getString(R.string.artictName5), getString(R.string.trackTime5), getString(R.string.artworkUrl5)))
+        val trackList = buildList {
+            add(Track(getString(R.string.trackName1), getString(R.string.artictName1), getString(R.string.trackTime1), getString(R.string.artworkUrl1)))
+            add(Track(getString(R.string.trackName2), getString(R.string.artictName2), getString(R.string.trackTime2), getString(R.string.artworkUrl2)))
+            add(Track(getString(R.string.trackName3), getString(R.string.artictName3), getString(R.string.trackTime3), getString(R.string.artworkUrl3)))
+            add(Track(getString(R.string.trackName4), getString(R.string.artictName4), getString(R.string.trackTime4), getString(R.string.artworkUrl4)))
+            add(Track(getString(R.string.trackName5), getString(R.string.artictName5), getString(R.string.trackTime5), getString(R.string.artworkUrl5)))
+        }
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewTrack)
         recyclerView.layoutManager = LinearLayoutManager(this)
