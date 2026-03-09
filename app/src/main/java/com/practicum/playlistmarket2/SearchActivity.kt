@@ -1,10 +1,7 @@
 package com.practicum.playlistmarket2
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -16,6 +13,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.core.widget.doOnTextChanged
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class SearchActivity : AppCompatActivity() {
     var savedPersonText: String = ""
@@ -30,6 +29,22 @@ class SearchActivity : AppCompatActivity() {
             v.updatePadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+
+        val trackList = buildList {
+            add(Track(getString(R.string.trackName1), getString(R.string.artictName1), getString(R.string.trackTime1), getString(R.string.artworkUrl1)))
+            add(Track(getString(R.string.trackName2), getString(R.string.artictName2), getString(R.string.trackTime2), getString(R.string.artworkUrl2)))
+            add(Track(getString(R.string.trackName3), getString(R.string.artictName3), getString(R.string.trackTime3), getString(R.string.artworkUrl3)))
+            add(Track(getString(R.string.trackName4), getString(R.string.artictName4), getString(R.string.trackTime4), getString(R.string.artworkUrl4)))
+            add(Track(getString(R.string.trackName5), getString(R.string.artictName5), getString(R.string.trackTime5), getString(R.string.artworkUrl5)))
+        }
+
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewTrack)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val trackAdapter = TrackAdapter(trackList)
+        recyclerView.adapter = trackAdapter
+
 
         val buttonBack = findViewById<Button>(R.id.button_arrow)
         buttonBack.setOnClickListener {
@@ -85,3 +100,4 @@ class SearchActivity : AppCompatActivity() {
             View.VISIBLE
         }
     }
+
