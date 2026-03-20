@@ -17,6 +17,9 @@
     <string name="mail_not_found">Приложения почты не найдено</string>
     <string name="search_text">Поиск</string>
     <string name="clear_button">Кнопка очистки</string>
+    <string name="search_problem">Проблемы со связью\n\nЗагрузка не удалась. Проверьте\nподключение к интернету</string>
+    <string name="not_found">Ничего не нашлось</string>
+    <string name="refresh">Обновить</string>
 
     <string name="trackName1" translatable="false">Smells Like Teen Spirit</string>
     <string name="artictName1" translatable="false">Nirvana</string>

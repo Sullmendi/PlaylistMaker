@@ -14,4 +14,7 @@
     <string name="mail_not_found">Mail App wasn\'t found</string>
     <string name="search_text">Search</string>
     <string name="clear_button">Clear Button</string>
+    <string name="search_problem">Connection problems\n\nDownload failed. Check\nyour internet connection.</string>
+    <string name="not_found">" Nothing found"</string>
+    <string name="refresh">Refresh</string>
 </resources>
