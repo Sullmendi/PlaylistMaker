@@ -31,13 +31,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchActivity : AppCompatActivity() {
     var savedPersonText: String = ""
-    private val baseSongUrl = "https://itunes.apple.com/"
     private val retrofit = Retrofit.Builder()
-        .baseUrl(baseSongUrl)
+        .baseUrl(BASE_SONG_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     private val trackService = retrofit.create(TrackItunesApi::class.java)
-    var trackList = ArrayList<Track>()
+    var trackList = mutableListOf<Track>()
     private lateinit var recyclerView: RecyclerView
     private lateinit var trackAdapter: TrackAdapter
     private lateinit var placeholderText: TextView
@@ -56,15 +55,6 @@ class SearchActivity : AppCompatActivity() {
             v.updatePadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-
-        /*val trackList = buildList {
-            add(Track(getString(R.string.trackName1), getString(R.string.artictName1), getString(R.string.trackTime1), getString(R.string.artworkUrl1)))
-            add(Track(getString(R.string.trackName2), getString(R.string.artictName2), getString(R.string.trackTime2), getString(R.string.artworkUrl2)))
-            add(Track(getString(R.string.trackName3), getString(R.string.artictName3), getString(R.string.trackTime3), getString(R.string.artworkUrl3)))
-            add(Track(getString(R.string.trackName4), getString(R.string.artictName4), getString(R.string.trackTime4), getString(R.string.artworkUrl4)))
-            add(Track(getString(R.string.trackName5), getString(R.string.artictName5), getString(R.string.trackTime5), getString(R.string.artworkUrl5)))
-        }*/
 
         recyclerView = findViewById<RecyclerView>(R.id.recyclerViewTrack)
         recyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false)
@@ -156,7 +146,7 @@ class SearchActivity : AppCompatActivity() {
                 call: Call<TrackResponse>,
                 response: Response<TrackResponse>
             ) {
-                if (response.code() == 200){
+                if (response.isSuccessful){
                     val results = response.body()?.trackResults
                     trackList.clear()
                     if(!results.isNullOrEmpty()){
@@ -191,6 +181,7 @@ class SearchActivity : AppCompatActivity() {
 
     companion object {
         const val SEARCH_TEXT = "SEARCH_TEXT"
+        const val BASE_SONG_URL = "https://itunes.apple.com/"
     }
 
 
