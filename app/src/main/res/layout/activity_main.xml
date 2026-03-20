@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/distance_sexteen">
+    android:padding="@dimen/distance_sixteen">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
     <Button
         android:id="@+id/media"
         style="@style/mainButtonStyle"
-        android:layout_marginTop="@dimen/distance_sexteen"
+        android:layout_marginTop="@dimen/distance_sixteen"
         app:icon="@drawable/ic_media_24"
         android:text="@string/media"
         android:insetTop="0dp"
@@ -47,7 +47,7 @@
         style="@style/mainButtonStyle"
         app:icon="@drawable/ic_settings_24"
         android:text="@string/settings"
-        android:layout_marginTop="@dimen/distance_sexteen"
+        android:layout_marginTop="@dimen/distance_sixteen"
         android:layout_marginBottom="@dimen/distance_twelve"
         android:insetTop="0dp"
         android:insetBottom="0dp"
