@@ -17,4 +17,6 @@
     <string name="search_problem">Connection problems\n\nDownload failed. Check\nyour internet connection.</string>
     <string name="not_found">" Nothing found"</string>
     <string name="refresh">Refresh</string>
+    <string name="search_history">"You were looking for "</string>
+    <string name="clean_search_history">Delete history</string>
 </resources>
