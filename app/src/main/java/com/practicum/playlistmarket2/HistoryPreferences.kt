@@ -5,10 +5,11 @@ import androidx.core.content.edit
 import com.google.gson.Gson
 
 class HistoryPreferences (val historySharedPreferences: SharedPreferences){
+    val gson = Gson()
 
     fun readHistory(): List<Track>{
         val json = historySharedPreferences.getString(HISTORY_KEY, null) ?: return emptyList()
-        val trackHistory = Gson().fromJson(json, Array<Track>::class.java)
+        val trackHistory = gson.fromJson(json, Array<Track>::class.java)
         return  trackHistory?.toMutableList() ?: emptyList()
     }
 
@@ -20,7 +21,7 @@ class HistoryPreferences (val historySharedPreferences: SharedPreferences){
             trackHistory.removeAt(trackHistory.lastIndex)
         }
 
-        val json = Gson().toJson(trackHistory)
+        val json = gson.toJson(trackHistory)
         historySharedPreferences.edit()
             .putString(HISTORY_KEY, json)
             .apply()
