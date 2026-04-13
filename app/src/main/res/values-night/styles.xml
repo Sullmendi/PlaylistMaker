@@ -109,4 +109,16 @@
         <item name="android:paddingRight">@dimen/text_fourteen</item>
     </style>
 
+    <style name="ButtonPlayTrack">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:backgroundTint">@color/light_black</item>
+    </style>
+
+    <style name="trackDescription">
+        <item name="android:textColor">@color/shadow_grey</item>
+        <item name="android:textSize">@dimen/text_thirteen</item>
+        <item name="fontFamily">@font/ys_display_regular</item>
+    </style>
+
 </resources>
