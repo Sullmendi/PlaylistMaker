@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmarket2.Track
+import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,6 +39,15 @@ import kotlin.collections.mutableListOf
 
 class TrackActivity : AppCompatActivity() {
     private var savedTrack: Track? = null
+    private lateinit var trackName: TextView
+    private lateinit var artistName: TextView
+    private lateinit var trackTimeMillis: TextView
+    private lateinit var collectionName: TextView
+    private lateinit var releaseDate: TextView
+    private lateinit var primaryGenreName: TextView
+    private lateinit var country: TextView
+    private lateinit var trackImage: ImageView
+    private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,18 +60,30 @@ class TrackActivity : AppCompatActivity() {
             insets
         }
 
-        savedTrack = intent.getSerializableExtra(ITEM_TRACK) as? Track
+        savedTrack = if (savedInstanceState != null) {
+            savedInstanceState.getParcelable<Track>(SAVED_TRACK) as? Track
+        } else {
+            intent.getParcelableExtra<Track>(ITEM_TRACK) as? Track
+        }
+
+        trackName = findViewById<TextView>(R.id.trackName)
+        artistName = findViewById<TextView>(R.id.artistName)
+        trackTimeMillis = findViewById<TextView>(R.id.trackTimeMillis)
+        collectionName = findViewById<TextView>(R.id.collectionName)
+        releaseDate = findViewById<TextView>(R.id.releaseDate)
+        primaryGenreName = findViewById<TextView>(R.id.primaryGenreName)
+        country = findViewById<TextView>(R.id.country)
+        trackImage = findViewById<ImageView>((R.id.trackImage))
+
 
         savedTrack?.let {
-            findViewById<TextView>(R.id.trackName).text = it.trackName
-            findViewById<TextView>(R.id.artistName).text = it.artistName
-            findViewById<TextView>(R.id.trackTimeMillis).text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(it.trackTimeMillis)
-            findViewById<TextView>(R.id.collectionName).text = it.collectionName
-            findViewById<TextView>(R.id.releaseDate).text = it.releaseDate.take(4)
-            findViewById<TextView>(R.id.primaryGenreName).text = it.primaryGenreName
-            findViewById<TextView>(R.id.country).text = it.country
-
-            val trackImage = findViewById<ImageView>(R.id.trackImage)
+            trackName.text = it.trackName
+            artistName.text = it.artistName
+            trackTimeMillis.text = dateFormat.format(it.trackTimeMillis)
+            collectionName.text = it.collectionName
+            releaseDate.text = it.releaseDate.take(4)
+            primaryGenreName.text = it.primaryGenreName
+            country.text = it.country
 
             Glide.with(this)
                 .load(getCoverArtwork(it))
@@ -89,32 +111,12 @@ class TrackActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle){
         super.onSaveInstanceState(outState)
-        outState.putSerializable(SAVED_TRACK, savedTrack)
+        outState.putParcelable(SAVED_TRACK, savedTrack)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle){
         super.onRestoreInstanceState(savedInstanceState)
-        super.onRestoreInstanceState(savedInstanceState)
-        // Достаем трек и отрисовываем его
-        savedTrack = savedInstanceState.getSerializable(SAVED_TRACK) as? Track
-        savedTrack?.let {
-            findViewById<TextView>(R.id.trackName).text = it.trackName
-            findViewById<TextView>(R.id.artistName).text = it.artistName
-            findViewById<TextView>(R.id.trackTimeMillis).text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(it.trackTimeMillis)
-            findViewById<TextView>(R.id.collectionName).text = it.collectionName
-            findViewById<TextView>(R.id.releaseDate).text = it.releaseDate.take(4)
-            findViewById<TextView>(R.id.primaryGenreName).text = it.primaryGenreName
-            findViewById<TextView>(R.id.country).text = it.country
-
-            val trackImage = findViewById<ImageView>(R.id.trackImage)
-
-            Glide.with(this)
-                .load(getCoverArtwork(it))
-                .centerCrop()
-                .placeholder(R.drawable.ic_placeholder_312)
-                .transform(RoundedCorners(dpToPx(8f,this)))
-                .into(trackImage)
-        }
+        savedTrack = savedInstanceState.getParcelable(SAVED_TRACK) as? Track
     }
 
     companion object {
