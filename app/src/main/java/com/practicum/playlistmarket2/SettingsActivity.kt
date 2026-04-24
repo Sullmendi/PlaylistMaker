@@ -30,7 +30,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         themeSwitch = findViewById<Switch>(R.id.simpleSwitch)
-        themeSwitch.isChecked = (applicationContext as App).darkTheme
+        themeSwitch.isChecked = (applicationContext as App).isDarkThemeEnabled()
         themeSwitch.setOnCheckedChangeListener { _, checked ->
             (applicationContext as App).switchTheme(checked)
         }

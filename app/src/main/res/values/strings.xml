@@ -22,6 +22,12 @@
     <string name="refresh">Обновить</string>
     <string name="search_history">Вы искали</string>
     <string name="clean_search_history">Очистить историю</string>
+    <string name="track_duration">Длительность</string>
+    <string name="track_album">Альбом</string>
+    <string name="track_year">Год</string>
+    <string name="track_genre">Жанр</string>
+    <string name="track_country">Страна</string>
+    
 
     <string name="trackName1" translatable="false">Smells Like Teen Spirit</string>
     <string name="artictName1" translatable="false">Nirvana</string>

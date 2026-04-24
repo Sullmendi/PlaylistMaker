@@ -6,5 +6,7 @@
     <color name="green_light">#00D6C3</color>
     <color name="grey">#E6E8EB</color>
     <color name="shadow_grey">#AEAFB4</color>
+    <color name="light_white">#80FFFFFF</color>
+    <color name="light_black">#CC1A1B22</color>
 
 </resources>

@@ -32,6 +32,8 @@ class App: Application(){
             .apply()
     }
 
+    fun isDarkThemeEnabled(): Boolean = darkTheme
+
     companion object{
         const val APP_SETTINGS = "app_setting"
         const val DARK_THEME = "dark_theme"

@@ -1,6 +1,7 @@
 package com.practicum.playlistmarket2
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
@@ -95,6 +96,11 @@ class SearchActivity : AppCompatActivity() {
             historyTrackList.clear()
             historyTrackList.addAll(updatedHistory)
             historyTrackAdapter.notifyDataSetChanged()
+
+            val trackIntent = Intent(this@SearchActivity, TrackActivity::class.java).apply {
+                    putExtra(ITEM_TRACK, track)
+            }
+            startActivity(trackIntent)
         }
         recyclerView.adapter = trackAdapter
 
@@ -105,6 +111,11 @@ class SearchActivity : AppCompatActivity() {
             historyTrackList.clear()
             historyTrackList.addAll(update)
             historyTrackAdapter.notifyDataSetChanged()
+
+            val trackIntent = Intent(this@SearchActivity, TrackActivity::class.java).apply {
+                putExtra(ITEM_TRACK, track)
+            }
+            startActivity(trackIntent)
         }
         recyclerHistoryView.adapter = historyTrackAdapter
 
@@ -256,6 +267,7 @@ class SearchActivity : AppCompatActivity() {
         const val SEARCH_TEXT = "SEARCH_TEXT"
         const val BASE_SONG_URL = "https://itunes.apple.com/"
         const val HISTORY_PREFERENCES = "history_preferences"
+        const val ITEM_TRACK = "item_track"
     }
 
 
