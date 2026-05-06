@@ -32,8 +32,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.logging.Handler
 import kotlin.collections.mutableListOf
+import android.os.Handler
 
 class SearchActivity : AppCompatActivity() {
     var savedPersonText: String = ""
@@ -58,7 +58,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var searchRunnable: Runnable
     private var isClickAllowed = true
-    private val handler = android.os.Handler(Looper.getMainLooper())
+    private val handler = Handler(Looper.getMainLooper())
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,14 +107,7 @@ class SearchActivity : AppCompatActivity() {
             historyTrackList.addAll(updatedHistory)
             historyTrackAdapter.notifyDataSetChanged()
 
-            if (isClickAllowed){
-                isClickAllowed = false
-                handler.postDelayed({isClickAllowed = true}, CLICK_DEBOUNCE_DELAY)
-            val trackIntent = Intent(this@SearchActivity, TrackActivity::class.java).apply {
-                    putExtra(ITEM_TRACK, track)
-            }
-            startActivity(trackIntent)
-            }
+            sendIntent(track)
         }
         recyclerView.adapter = trackAdapter
 
@@ -126,14 +119,7 @@ class SearchActivity : AppCompatActivity() {
             historyTrackList.addAll(update)
             historyTrackAdapter.notifyDataSetChanged()
 
-            if (isClickAllowed){
-                isClickAllowed = false
-                handler.postDelayed({isClickAllowed = true}, CLICK_DEBOUNCE_DELAY)
-            val trackIntent = Intent(this@SearchActivity, TrackActivity::class.java).apply {
-                putExtra(ITEM_TRACK, track)
-            }
-            startActivity(trackIntent)
-            }
+            sendIntent(track)
         }
         recyclerHistoryView.adapter = historyTrackAdapter
 
@@ -162,6 +148,7 @@ class SearchActivity : AppCompatActivity() {
             if(!text.isNullOrEmpty()){
                 progressBar.visibility = View.VISIBLE
                 placeholderMessage.visibility = View.GONE
+                recyclerView.visibility = View.GONE
                 searchDebounce()
                 trackList.clear()
                 trackAdapter.notifyDataSetChanged()
@@ -304,6 +291,17 @@ class SearchActivity : AppCompatActivity() {
             View.GONE
         } else {
             View.VISIBLE
+        }
+    }
+
+    private fun sendIntent(track: Track){
+        if (isClickAllowed){
+            isClickAllowed = false
+            handler.postDelayed({isClickAllowed = true}, CLICK_DEBOUNCE_DELAY)
+            val trackIntent = Intent(this@SearchActivity, TrackActivity::class.java).apply {
+                putExtra(ITEM_TRACK, track)
+            }
+            startActivity(trackIntent)
         }
     }
 }

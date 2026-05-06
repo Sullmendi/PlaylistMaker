@@ -37,7 +37,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.Locale
-import java.util.logging.Handler
+import android.os.Handler
 import kotlin.collections.mutableListOf
 
 class TrackActivity : AppCompatActivity() {
@@ -55,7 +55,7 @@ class TrackActivity : AppCompatActivity() {
     private lateinit var playButton: ImageButton
     private lateinit var playTime: TextView
     private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
-    private val mainHandler = android.os.Handler(Looper.getMainLooper())
+    private val mainHandler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -184,7 +184,7 @@ class TrackActivity : AppCompatActivity() {
         override fun run() {
             if(trackPlayState == MEDIA_STATE_PLAY){
 
-                if(mediaPlayer.currentPosition<30000L){
+                if(mediaPlayer.isPlaying){
                     var updatedTime = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)
                     playTime.text = updatedTime
                     mainHandler.postDelayed(this,TIME_DELAY)
