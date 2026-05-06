@@ -27,6 +27,7 @@
     <string name="track_year">Год</string>
     <string name="track_genre">Жанр</string>
     <string name="track_country">Страна</string>
+    <string name="default_time" translatable="false">00:00</string>
     
 
     <string name="trackName1" translatable="false">Smells Like Teen Spirit</string>
