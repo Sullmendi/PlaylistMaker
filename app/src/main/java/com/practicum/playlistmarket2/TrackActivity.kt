@@ -2,7 +2,9 @@ package com.practicum.playlistmarket2
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Looper
 import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -35,10 +37,13 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.Locale
+import android.os.Handler
 import kotlin.collections.mutableListOf
 
 class TrackActivity : AppCompatActivity() {
     private var savedTrack: Track? = null
+    private var trackPlayState = MEDIA_STATE_DEFAULT
+    private var mediaPlayer = MediaPlayer()
     private lateinit var trackName: TextView
     private lateinit var artistName: TextView
     private lateinit var trackTimeMillis: TextView
@@ -47,7 +52,10 @@ class TrackActivity : AppCompatActivity() {
     private lateinit var primaryGenreName: TextView
     private lateinit var country: TextView
     private lateinit var trackImage: ImageView
+    private lateinit var playButton: ImageButton
+    private lateinit var playTime: TextView
     private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
+    private val mainHandler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +81,9 @@ class TrackActivity : AppCompatActivity() {
         releaseDate = findViewById<TextView>(R.id.releaseDate)
         primaryGenreName = findViewById<TextView>(R.id.primaryGenreName)
         country = findViewById<TextView>(R.id.country)
-        trackImage = findViewById<ImageView>((R.id.trackImage))
+        trackImage = findViewById<ImageView>(R.id.trackImage)
+        playButton = findViewById<ImageButton>(R.id.buttonPlay)
+        playTime = findViewById<TextView>(R.id.playTime)
 
 
         savedTrack?.let {
@@ -81,7 +91,7 @@ class TrackActivity : AppCompatActivity() {
             artistName.text = it.artistName
             trackTimeMillis.text = dateFormat.format(it.trackTimeMillis)
             collectionName.text = it.collectionName
-            releaseDate.text = it.releaseDate.take(4)
+            releaseDate.text = it.releaseDate?.take(4)
             primaryGenreName.text = it.primaryGenreName
             country.text = it.country
 
@@ -91,6 +101,12 @@ class TrackActivity : AppCompatActivity() {
                 .placeholder(R.drawable.ic_placeholder_312)
                 .transform(RoundedCorners(dpToPx(8f,this)))
                 .into(trackImage)
+        }
+
+        prepareMediaPlayer()
+
+        playButton.setOnClickListener {
+            playControl()
         }
 
         val buttonBack = findViewById<Button>(R.id.button_arrow)
@@ -107,7 +123,7 @@ class TrackActivity : AppCompatActivity() {
             context.resources.displayMetrics).toInt()
     }
 
-    fun getCoverArtwork(track: Track) = track.artworkUrl100.replaceAfterLast('/',"512x512bb.jpg")
+    fun getCoverArtwork(track: Track) = track.artworkUrl100?.replaceAfterLast('/',"512x512bb.jpg")
 
     override fun onSaveInstanceState(outState: Bundle){
         super.onSaveInstanceState(outState)
@@ -119,10 +135,86 @@ class TrackActivity : AppCompatActivity() {
         savedTrack = savedInstanceState.getParcelable(SAVED_TRACK) as? Track
     }
 
+    private fun prepareMediaPlayer(){
+        val url = savedTrack?.previewUrl
+        if (!url.isNullOrEmpty()) {
+            mediaPlayer.setDataSource(savedTrack?.previewUrl)
+            mediaPlayer.prepareAsync()
+            mediaPlayer.setOnPreparedListener {
+                playButton.isEnabled = true
+                trackPlayState = MEDIA_STATE_PREPARED
+        }
+        } else {
+            playButton.isEnabled = false
+            Toast.makeText(this, "Аудио отрывок песни недоступен", Toast.LENGTH_LONG).show()
+        }
+        mediaPlayer.setOnCompletionListener {
+            playButton.setImageResource(R.drawable.ic_button_play_100)
+            trackPlayState = MEDIA_STATE_PREPARED
+            mainHandler.removeCallbacks(updateTrackTime)
+            playTime.setText(R.string.default_time)
+        }
+    }
+
+    private fun startPlayMusic(){
+        mediaPlayer.start()
+        playButton.setImageResource(R.drawable.ic_button_stop_100)
+        trackPlayState = MEDIA_STATE_PLAY
+        mainHandler.post(updateTrackTime)
+    }
+    private fun pausePlayMusic(){
+        mediaPlayer.pause()
+        playButton.setImageResource(R.drawable.ic_button_play_100)
+        trackPlayState = MEDIA_STATE_PAUSE
+        mainHandler.removeCallbacks(updateTrackTime)
+    }
+
+    private fun playControl(){
+        when(trackPlayState){
+            MEDIA_STATE_PLAY -> {
+                pausePlayMusic()
+            }
+            MEDIA_STATE_PREPARED,MEDIA_STATE_PAUSE -> {
+                startPlayMusic()
+            }
+        }
+    }
+
+    private val updateTrackTime = object : Runnable {
+        override fun run() {
+            if(trackPlayState == MEDIA_STATE_PLAY){
+
+                if(mediaPlayer.isPlaying){
+                    var updatedTime = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)
+                    playTime.text = updatedTime
+                    mainHandler.postDelayed(this,TIME_DELAY)
+                } else{
+                    playTime.text = getString(R.string.default_time)
+                }
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        pausePlayMusic()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mainHandler.removeCallbacks(updateTrackTime)
+        mediaPlayer.release()
+    }
+
     companion object {
         const val HISTORY_PREFERENCES = "history_preferences"
         const val ITEM_TRACK = "item_track"
         const val SAVED_TRACK = "saved_track"
+        const val MEDIA_STATE_DEFAULT = 0
+        const val MEDIA_STATE_PREPARED = 1
+        const val MEDIA_STATE_PLAY = 2
+        const val MEDIA_STATE_PAUSE = 3
+        const val TIME_DELAY = 300L
     }
 
 }

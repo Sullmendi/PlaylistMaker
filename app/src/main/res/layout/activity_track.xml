@@ -98,6 +98,7 @@
             app:layout_constraintStart_toEndOf="@+id/buttonAddPlaylist"
             app:srcCompat="@drawable/ic_button_play_100"
             app:layout_constraintTag="playBtn"
+            android:enabled="false"
             />
 
         <ImageButton
@@ -120,7 +121,7 @@
             app:layout_constraintTop_toBottomOf="@id/buttonPlay"
             app:layout_constraintStart_toStartOf="@id/buttonPlay"
             app:layout_constraintEnd_toEndOf="@id/buttonPlay"
-            android:text="0:30"
+            android:text="@string/default_time"
             app:layout_constraintTag="playTime"
             />
 
