@@ -1,8 +1,9 @@
-package com.practicum.playlistmarket2
+package com.practicum.playlistmarket2.data.network
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.google.gson.Gson
+import com.practicum.playlistmarket2.domain.models.Track
 
 class HistoryPreferences (val historySharedPreferences: SharedPreferences){
     val gson = Gson()
@@ -37,5 +38,3 @@ class HistoryPreferences (val historySharedPreferences: SharedPreferences){
         const val MAX_HISTORY_SIZE = 10
     }
 }
-
-

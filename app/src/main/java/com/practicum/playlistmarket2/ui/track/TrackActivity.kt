@@ -1,44 +1,27 @@
-package com.practicum.playlistmarket2
+package com.practicum.playlistmarket2.ui.track
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
 import android.util.TypedValue
-import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.util.TypedValueCompat.dpToPx
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
-import androidx.core.widget.doOnTextChanged
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.practicum.playlistmarket2.Track
-import org.w3c.dom.Text
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.practicum.playlistmarket2.R
+import com.practicum.playlistmarket2.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
-import android.os.Handler
-import kotlin.collections.mutableListOf
 
 class TrackActivity : AppCompatActivity() {
     private var savedTrack: Track? = null
@@ -89,7 +72,7 @@ class TrackActivity : AppCompatActivity() {
         savedTrack?.let {
             trackName.text = it.trackName
             artistName.text = it.artistName
-            trackTimeMillis.text = dateFormat.format(it.trackTimeMillis)
+            trackTimeMillis.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(it.trackTimeMillis)
             collectionName.text = it.collectionName
             releaseDate.text = it.releaseDate?.take(4)
             primaryGenreName.text = it.primaryGenreName
@@ -99,7 +82,7 @@ class TrackActivity : AppCompatActivity() {
                 .load(getCoverArtwork(it))
                 .centerCrop()
                 .placeholder(R.drawable.ic_placeholder_312)
-                .transform(RoundedCorners(dpToPx(8f,this)))
+                .transform(RoundedCorners(dpToPx(8f, this)))
                 .into(trackImage)
         }
 
@@ -218,7 +201,3 @@ class TrackActivity : AppCompatActivity() {
     }
 
 }
-
-
-
-

@@ -1,12 +1,9 @@
-package com.practicum.playlistmarket2
+package com.practicum.playlistmarket2.ui.activescreens
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
-
+import com.practicum.playlistmarket2.R
 
 class MediaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
