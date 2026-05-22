@@ -18,9 +18,6 @@ class TrackRepositoryImpl (private val networkClient: NetworkClient) : TrackRepo
                 Track(it.trackName,
                     it.artistName,
                     it.trackTimeMillis,
-                    /*
-                    trackTimeMillis = SimpleDateFormat("mm:ss", Locale.getDefault()).format(it.trackTimeMillis),
-                    */
                     it.artworkUrl100,
                     it.trackId,
                     it.collectionName,

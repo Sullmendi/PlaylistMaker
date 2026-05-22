@@ -7,10 +7,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitNetworkClient : NetworkClient {
-
-    private val baseUrl = "https://itunes.apple.com/"
     private val retrofit = Retrofit.Builder()
-        .baseUrl(baseUrl)
+        .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     private val trackService = retrofit.create(TrackItunesApi::class.java)
@@ -27,4 +25,7 @@ class RetrofitNetworkClient : NetworkClient {
         }
     }
 
+    companion object{
+        const val BASE_URL = "https://itunes.apple.com/"
+    }
 }
