@@ -1,4 +1,4 @@
-package com.practicum.playlistmarket2
+package com.practicum.playlistmarket2.ui.activescreens
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.practicum.playlistmarket2.ui.activescreens.MediaActivity
+import com.practicum.playlistmarket2.R
+import com.practicum.playlistmarket2.ui.activescreens.SearchActivity
+import com.practicum.playlistmarket2.ui.activescreens.SettingsActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,4 +50,3 @@ class MainActivity : AppCompatActivity() {
 
     }
 }
-

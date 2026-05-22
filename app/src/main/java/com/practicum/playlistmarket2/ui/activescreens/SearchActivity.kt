@@ -1,12 +1,11 @@
-package com.practicum.playlistmarket2
+package com.practicum.playlistmarket2.ui.activescreens
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -15,25 +14,27 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.practicum.playlistmarket2.Track
-import kotlinx.coroutines.Runnable
+import com.practicum.playlistmarket2.data.network.HistoryPreferences
+import com.practicum.playlistmarket2.R
+import com.practicum.playlistmarket2.data.dto.TrackDto
+import com.practicum.playlistmarket2.ui.track.TrackActivity
+import com.practicum.playlistmarket2.ui.activescreens.TrackAdapter
+import com.practicum.playlistmarket2.data.dto.TrackResponse
+import com.practicum.playlistmarket2.data.network.TrackItunesApi
+import com.practicum.playlistmarket2.domain.models.Track
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.collections.mutableListOf
-import android.os.Handler
 
 class SearchActivity : AppCompatActivity() {
     var savedPersonText: String = ""
@@ -56,7 +57,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var historyPref: HistoryPreferences
     private lateinit var historyTrackAdapter: TrackAdapter
     private lateinit var progressBar: ProgressBar
-    private lateinit var searchRunnable: Runnable
+    private lateinit var searchRunnable: kotlinx.coroutines.Runnable
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
 
@@ -87,9 +88,10 @@ class SearchActivity : AppCompatActivity() {
         searchEditText.requestFocus()
         var query = searchEditText.text.toString()
         recyclerView = findViewById<RecyclerView>(R.id.recyclerViewTrack)
-        recyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false)
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerHistoryView = findViewById<RecyclerView>(R.id.recyclerHistoryViewTrack)
-        recyclerHistoryView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false)
+        recyclerHistoryView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         placeholderMessage = findViewById<LinearLayout>(R.id.placeholder_message)
         placeholderText = findViewById<TextView>(R.id.placeholder_text)
         placeholderImage = findViewById<ImageView>(R.id.placeholder_image)
@@ -99,7 +101,7 @@ class SearchActivity : AppCompatActivity() {
         progressBar = findViewById<ProgressBar>(R.id.progressBar)
         searchRunnable = Runnable{ doSearch(query) }
 
-        trackAdapter = TrackAdapter(trackList) {track ->
+        trackAdapter = TrackAdapter(trackList) { track ->
             historyPref.addTrackToHistory(track)
 
             val updatedHistory = historyPref.readHistory()
@@ -111,7 +113,7 @@ class SearchActivity : AppCompatActivity() {
         }
         recyclerView.adapter = trackAdapter
 
-        historyTrackAdapter = TrackAdapter(historyTrackList) {track ->
+        historyTrackAdapter = TrackAdapter(historyTrackList) { track ->
             historyPref.addTrackToHistory(track)
 
             val update = historyPref.readHistory()
@@ -126,7 +128,7 @@ class SearchActivity : AppCompatActivity() {
         clearButton.setOnClickListener {
             handler.removeCallbacks(searchRunnable)
            searchEditText.setText("")
-            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(searchEditText.windowToken, 0)
             trackList.clear()
             trackAdapter.notifyDataSetChanged()
@@ -238,7 +240,17 @@ class SearchActivity : AppCompatActivity() {
             ) {
                 progressBar.visibility = View.GONE
                 if (response.isSuccessful){
-                    val results = response.body()?.trackResults
+                    val results = response.body()?.trackResults?.map {
+                        Track(it.trackName,
+                        it.artistName,
+                        it.trackTimeMillis,
+                        it.artworkUrl100,
+                        it.trackId,
+                        it.collectionName,
+                        it.releaseDate,
+                        it.primaryGenreName,
+                        it.country,
+                        it.previewUrl) }
                     trackList.clear()
                     if(!results.isNullOrEmpty()){
                         trackList.addAll(results)
@@ -305,6 +317,3 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 }
-
-
-

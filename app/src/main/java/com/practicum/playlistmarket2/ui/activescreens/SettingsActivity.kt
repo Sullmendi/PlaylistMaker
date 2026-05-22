@@ -1,7 +1,6 @@
-package com.practicum.playlistmarket2
+package com.practicum.playlistmarket2.ui.activescreens
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.FrameLayout
@@ -9,10 +8,12 @@ import android.widget.Switch
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.net.toUri
 import androidx.core.view.updatePadding
+import com.practicum.playlistmarket2.App
+import com.practicum.playlistmarket2.R
 
 class SettingsActivity : AppCompatActivity() {
 
