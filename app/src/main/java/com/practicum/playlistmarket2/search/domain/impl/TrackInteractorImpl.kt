@@ -8,9 +8,10 @@ import java.util.concurrent.Executors
 class TrackInteractorImpl (private val repository: TrackRepository) : TrackInteractor {
 
     override fun searchTrack(searchText: String, consumer: TrackInteractor.TrackConsumer) {
-        val t = Thread {
-                consumer.consume(repository.searchTrack(searchText))
+        val executor = Executors.newCachedThreadPool()
+
+        executor.execute {
+            consumer.consume(repository.searchTrack(searchText))
         }
-        t.start()
     }
 }

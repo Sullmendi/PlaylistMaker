@@ -31,14 +31,12 @@ class SearchViewModel(private val context: Context, private val trackInteractor:
     companion object{
         const val SEARCH_DEBOUNCE_DELAY = 2000L
         private val SEARCH_REQUEST_TOKEN = Any()
-        const val HISTORY_KEY = "key_for_history"
 
         fun getFactory(context: Context): ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val app = this[APPLICATION_KEY] as Application
-                val sharePref = app.getSharedPreferences(HISTORY_KEY, Context.MODE_PRIVATE)
                 val trackInteractor = Creator.provideTrackInteractor(context)
-                val searchHistoryInteractor = Creator.provideSearchHistoryInteractor(sharePref)
+                val searchHistoryInteractor = Creator.provideSearchHistoryInteractor(app)
 
                 SearchViewModel(
                     context = context,
@@ -49,8 +47,10 @@ class SearchViewModel(private val context: Context, private val trackInteractor:
         }
     }
 
-    var savedPersonText: String = ""
-    var lastSearchText: String = ""
+    private var savedPersonText: String = ""
+    private var lastSearchText: String = ""
+    var trackList = mutableListOf<Track>()
+    var historyTrackList = mutableListOf<Track>()
     private val handler = Handler(Looper.getMainLooper())
     private var isClickAllowed = true
     private val stateLiveData = MutableLiveData<SearchState>()

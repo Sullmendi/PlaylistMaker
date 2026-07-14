@@ -27,20 +27,20 @@ object Creator {
         return TrackInteractorImpl(getTrackRepository(context))
     }
 
-    private fun getSearchHistoryRepository(historySharedPreferences: SharedPreferences): SearchHistoryRepository{
-        return SearchHistoryRepositoryImpl(historySharedPreferences)
+    private fun getSearchHistoryRepository(context: Context): SearchHistoryRepository{
+        return SearchHistoryRepositoryImpl(context)
     }
 
-    fun provideSearchHistoryInteractor(historySharedPreferences: SharedPreferences): SearchHistoryInteractor{
-        return SearchHistoryInteractorImpl(getSearchHistoryRepository(historySharedPreferences))
+    fun provideSearchHistoryInteractor(context: Context): SearchHistoryInteractor{
+        return SearchHistoryInteractorImpl(getSearchHistoryRepository(context))
     }
 
-    private fun getThemeRepository(sharedPreferences: SharedPreferences): ThemeRepository {
-        return ThemeRepositoryImpl(sharedPreferences)
+    private fun getThemeRepository(context: Context): ThemeRepository {
+        return ThemeRepositoryImpl(context)
     }
 
-    fun provideThemeInteractor(sharedPreferences: SharedPreferences): ThemeInteractor {
-        return ThemeInteractorImpl(getThemeRepository(sharedPreferences))
+    fun provideThemeInteractor(context: Context): ThemeInteractor {
+        return ThemeInteractorImpl(getThemeRepository(context))
     }
 
 }

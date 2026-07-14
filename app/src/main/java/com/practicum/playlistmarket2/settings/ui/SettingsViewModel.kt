@@ -18,13 +18,10 @@ import com.practicum.playlistmarket2.settings.domain.api.ThemeInteractor
 class SettingsViewModel(private val themeInteractor: ThemeInteractor) : ViewModel() {
 
     companion object {
-        const val HISTORY_KEY = "key_for_history"
-
         fun getFactory(): ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val app = this[APPLICATION_KEY] as Application
-                val sharePref = app.getSharedPreferences(HISTORY_KEY, Context.MODE_PRIVATE)
-                val themeInteractor = Creator.provideThemeInteractor(sharePref)
+                val themeInteractor = Creator.provideThemeInteractor(app)
 
                 SettingsViewModel(
                     themeInteractor = themeInteractor

@@ -36,8 +36,6 @@ import com.practicum.playlistmarket2.search.domain.api.SearchState
 class SearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchBinding
     var savedPersonText: String = ""
-    var trackList = mutableListOf<Track>()
-    private lateinit var historyTrackList: MutableList<Track>
     private lateinit var trackAdapter: TrackAdapter
     private lateinit var historyTrackAdapter: TrackAdapter
     private lateinit var viewModel: SearchViewModel
@@ -61,7 +59,6 @@ class SearchActivity : AppCompatActivity() {
         viewModel.observeState().observe(this){
             render(it)
         }
-        historyTrackList = mutableListOf()
 
         binding.buttonArrow.setOnClickListener {
             finish()
@@ -71,17 +68,17 @@ class SearchActivity : AppCompatActivity() {
         binding.recyclerViewTrack.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.recyclerHistoryViewTrack.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        trackAdapter = TrackAdapter(trackList) { track ->
+        trackAdapter = TrackAdapter(viewModel.trackList) { track ->
             viewModel.openTrack(track)
         }
         binding.recyclerViewTrack.adapter = trackAdapter
 
-        historyTrackAdapter = TrackAdapter(historyTrackList) { track ->
+        historyTrackAdapter = TrackAdapter(viewModel.historyTrackList) { track ->
             viewModel.openTrack(track)
 
             val updatedHistory = viewModel.readHistory()
-            historyTrackList.clear()
-            historyTrackList.addAll(updatedHistory)
+            viewModel.historyTrackList.clear()
+            viewModel.historyTrackList.addAll(updatedHistory)
             historyTrackAdapter.notifyDataSetChanged()
         }
         binding.recyclerHistoryViewTrack.adapter = historyTrackAdapter
@@ -127,8 +124,8 @@ class SearchActivity : AppCompatActivity() {
                recyclerViewTrack.visibility = View.GONE
            }
            val updatedHistory = viewModel.readHistory()
-           historyTrackList.clear()
-           historyTrackList.addAll(updatedHistory)
+           viewModel.historyTrackList.clear()
+           viewModel.historyTrackList.addAll(updatedHistory)
            historyTrackAdapter.notifyDataSetChanged()
        } else {
            binding.searchHistory.visibility = View.GONE
@@ -155,8 +152,8 @@ class SearchActivity : AppCompatActivity() {
                     progressBar.visibility = View.GONE
                 }
                 showHistoryVisible(false)
-                trackList.clear()
-                trackList.addAll(state.trackList)
+                viewModel.trackList.clear()
+                viewModel.trackList.addAll(state.trackList)
                 trackAdapter.notifyDataSetChanged()
             }
             is SearchState.Error -> {
