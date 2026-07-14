@@ -107,8 +107,6 @@ class TrackActivity : AppCompatActivity() {
 
     fun getCoverArtwork(track: Track) = track.artworkUrl100?.replaceAfterLast('/',"512x512bb.jpg")
 
-    /*Toast.makeText(this, "Аудио отрывок песни недоступен", Toast.LENGTH_LONG).show()*/
-
     override fun onPause() {
         super.onPause()
         viewModel.pausePlayMusic()
