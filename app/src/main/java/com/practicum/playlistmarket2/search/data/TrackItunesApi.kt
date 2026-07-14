@@ -1,4 +1,4 @@
-package com.practicum.playlistmarket2.data.network
+package com.practicum.playlistmarket2.search.data
 
 import com.practicum.playlistmarket2.data.dto.TrackResponse
 import retrofit2.Call

@@ -1,4 +1,4 @@
-package com.practicum.playlistmarket2.ui.activescreens
+package com.practicum.playlistmarket2.main.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,17 +7,20 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.practicum.playlistmarket2.ui.activescreens.MediaActivity
 import com.practicum.playlistmarket2.R
-import com.practicum.playlistmarket2.ui.activescreens.SearchActivity
-import com.practicum.playlistmarket2.ui.activescreens.SettingsActivity
+import com.practicum.playlistmarket2.databinding.ActivityMainBinding
+import com.practicum.playlistmarket2.keeping.ui.MediaActivity
+import com.practicum.playlistmarket2.search.ui.SearchActivity
+import com.practicum.playlistmarket2.settings.ui.SettingsActivity
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             val basePadding = resources.getDimensionPixelSize(R.dimen.distance_sixteen)
             v.setPadding(
@@ -29,21 +32,17 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val buttonSearch = findViewById<Button>(R.id.search_sign)
-        val buttonMedia = findViewById<Button>(R.id.media)
-        val buttonSettings = findViewById<Button>(R.id.settings)
-
-        buttonSearch.setOnClickListener {
+        binding.searchSign.setOnClickListener {
             val searchIntent = Intent(this@MainActivity, SearchActivity::class.java)
             startActivity(searchIntent)
         }
 
-        buttonMedia.setOnClickListener {
+        binding.media.setOnClickListener {
             val mediaIntent = Intent(this@MainActivity, MediaActivity::class.java)
             startActivity(mediaIntent)
         }
 
-        buttonSettings.setOnClickListener {
+        binding.settings.setOnClickListener {
             val settingIntent = Intent(this@MainActivity, SettingsActivity::class.java)
             startActivity(settingIntent)
         }

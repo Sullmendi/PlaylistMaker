@@ -1,21 +1,26 @@
-package com.practicum.playlistmarket2.data.network
+package com.practicum.playlistmarket2.search.domain.impl
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.google.gson.Gson
 import com.practicum.playlistmarket2.domain.models.Track
+import com.practicum.playlistmarket2.search.domain.api.SearchHistoryRepository
 
-class HistoryPreferences (val historySharedPreferences: SharedPreferences){
+class SearchHistoryRepositoryImpl(val historySharedPreferences: SharedPreferences): SearchHistoryRepository {
     val gson = Gson()
+    companion object{
+        const val HISTORY_KEY = "key_for_history"
+        const val MAX_HISTORY_SIZE = 10
+    }
 
-    fun readHistory(): List<Track>{
+    override fun getHistory(): List<Track> {
         val json = historySharedPreferences.getString(HISTORY_KEY, null) ?: return emptyList()
         val trackHistory = gson.fromJson(json, Array<Track>::class.java)
         return  trackHistory?.toMutableList() ?: emptyList()
     }
 
-    fun addTrackToHistory(track: Track) {
-        val trackHistory = readHistory().toMutableList()
+    override fun addToHistory(track: Track) {
+        val trackHistory = getHistory().toMutableList()
         trackHistory.removeIf { it.trackId == track.trackId }
         trackHistory.add(0,track)
         if (trackHistory.size > MAX_HISTORY_SIZE){
@@ -26,15 +31,18 @@ class HistoryPreferences (val historySharedPreferences: SharedPreferences){
         historySharedPreferences.edit()
             .putString(HISTORY_KEY, json)
             .apply()
-
     }
 
-    fun cleanHistory(){
+    override fun clearHistory() {
         historySharedPreferences.edit { remove(HISTORY_KEY) }
     }
 
-    companion object{
-        const val HISTORY_KEY = "key_for_history"
-        const val MAX_HISTORY_SIZE = 10
+    override fun isEmpty(): Boolean {
+        val trackhistory = getHistory().toMutableList()
+        if(trackhistory.isEmpty()){
+            return true
+        } else{
+            return false
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.practicum.playlistmarket2.ui.activescreens
+package com.practicum.playlistmarket2.keeping.ui
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge

@@ -1,21 +1,21 @@
-package com.practicum.playlistmarket2.data.network
+package com.practicum.playlistmarket2.search.domain.impl
 
 import com.practicum.playlistmarket2.data.NetworkClient
 import com.practicum.playlistmarket2.data.dto.TrackResponse
-import com.practicum.playlistmarket2.data.dto.TrackSearchRequest
-import com.practicum.playlistmarket2.domain.api.TrackRepository
+import com.practicum.playlistmarket2.data.network.RetrofitNetworkClient
 import com.practicum.playlistmarket2.domain.models.Track
-import java.text.SimpleDateFormat
-import java.util.Locale
-import kotlin.String
+import com.practicum.playlistmarket2.search.data.TrackSearchRequest
+import com.practicum.playlistmarket2.search.domain.api.TrackRepository
+import java.io.IOException
 
-class TrackRepositoryImpl (private val networkClient: NetworkClient) : TrackRepository {
+class TrackRepositoryImpl (private val networkClient: RetrofitNetworkClient) : TrackRepository {
 
-    override fun searchTrack(searchText: String): List<Track> {
+    override fun searchTrack(searchText: String): List<Track>? {
         val response = networkClient.doRequest(TrackSearchRequest(searchText))
         if (response.resultCode == 200) {
             return (response as TrackResponse).trackResults.map {
-                Track(it.trackName,
+                Track(
+                    it.trackName,
                     it.artistName,
                     it.trackTimeMillis,
                     it.artworkUrl100,
@@ -24,9 +24,11 @@ class TrackRepositoryImpl (private val networkClient: NetworkClient) : TrackRepo
                     it.releaseDate,
                     it.primaryGenreName,
                     it.country,
-                    it.previewUrl) }
+                    it.previewUrl
+                )
+            }
         } else {
-            return emptyList()
+            return null
         }
     }
 }

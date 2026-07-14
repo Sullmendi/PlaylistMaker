@@ -1,4 +1,4 @@
-package com.practicum.playlistmarket2.ui.activescreens
+package com.practicum.playlistmarket2.player.ui
 
 import android.content.Context
 import android.util.TypedValue

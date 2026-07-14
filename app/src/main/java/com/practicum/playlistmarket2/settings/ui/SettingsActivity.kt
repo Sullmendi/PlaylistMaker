@@ -1,4 +1,4 @@
-package com.practicum.playlistmarket2.ui.activescreens
+package com.practicum.playlistmarket2.settings.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,51 +8,63 @@ import android.widget.Switch
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import androidx.lifecycle.ViewModelProvider
 import com.practicum.playlistmarket2.App
 import com.practicum.playlistmarket2.R
+import com.practicum.playlistmarket2.databinding.ActivitySettingsBinding
+import com.practicum.playlistmarket2.databinding.ActivityTrackBinding
 
 class SettingsActivity : AppCompatActivity() {
-
-    private lateinit var themeSwitch: Switch
+private lateinit var binding: ActivitySettingsBinding
+    private lateinit var viewModel: SettingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_settings)
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.settings_activity)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.updatePadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        themeSwitch = findViewById<Switch>(R.id.simpleSwitch)
-        themeSwitch.isChecked = (applicationContext as App).isDarkThemeEnabled()
-        themeSwitch.setOnCheckedChangeListener { _, checked ->
-            (applicationContext as App).switchTheme(checked)
+        viewModel = ViewModelProvider(
+            this,
+            SettingsViewModel.getFactory()
+        )[SettingsViewModel::class.java]
+
+        val currentTheme = (application as App).isDarkThemeEnabled()
+        binding.themeSwitch.isChecked = currentTheme
+
+        viewModel.observeDarkTheme().observe(this){ isDark ->
+            binding.themeSwitch.isChecked = isDark
+            (application as App).switchTheme(isDark)
         }
 
-        val buttonBack = findViewById<Button>(R.id.button_arrow)
-        buttonBack.setOnClickListener {
+        binding.themeSwitch.setOnCheckedChangeListener { _, checked ->
+            viewModel.setTheme(checked)
+        }
+
+        binding.buttonArrow.setOnClickListener {
             finish()
         }
 
-        val buttonShareApp = findViewById<FrameLayout>(R.id.share_app)
-        buttonShareApp.setOnClickListener {
+        binding.shareApp.setOnClickListener {
             shareApp()
         }
 
-        val buttonSupport = findViewById<FrameLayout>(R.id.message_to_support)
-        buttonSupport.setOnClickListener {
+        binding.messageToSupport.setOnClickListener {
             writeToSupport()
         }
 
-        val buttonPersonalAgreement = findViewById<FrameLayout>(R.id.personal_agreement)
-        buttonPersonalAgreement.setOnClickListener {
+        binding.personalAgreement.setOnClickListener {
             openPersonalAgreement()
         }
 

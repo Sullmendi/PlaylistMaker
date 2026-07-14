@@ -1,14 +1,14 @@
-package com.practicum.playlistmarket2.ui.activescreens
+package com.practicum.playlistmarket2.search.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmarket2.R
-import com.practicum.playlistmarket2.ui.activescreens.TrackViewHolder
 import com.practicum.playlistmarket2.domain.models.Track
+import com.practicum.playlistmarket2.player.ui.TrackViewHolder
 
 class TrackAdapter (
-    private val trackList: List<Track>,
+    var trackList: List<Track>,
     private val clickOnTrack: (Track) -> Unit
 ) : RecyclerView.Adapter<TrackViewHolder> () {
     override fun onCreateViewHolder(
