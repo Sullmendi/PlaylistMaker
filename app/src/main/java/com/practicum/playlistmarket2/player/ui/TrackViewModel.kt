@@ -16,20 +16,6 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class TrackViewModel(private val track: Track): ViewModel() {
-    companion object {
-        const val MEDIA_STATE_DEFAULT = 0
-        const val MEDIA_STATE_PREPARED = 1
-        const val MEDIA_STATE_PLAY = 2
-        const val MEDIA_STATE_PAUSE = 3
-        const val TIME_DELAY = 300L
-
-        fun getFactory(track: Track): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                TrackViewModel(track)
-            }
-        }
-    }
-
     private val playerStateLiveData = MutableLiveData(MEDIA_STATE_DEFAULT)
     fun observePLayerState(): LiveData<Int> = playerStateLiveData
 
@@ -97,5 +83,19 @@ class TrackViewModel(private val track: Track): ViewModel() {
         super.onCleared()
         mainHandler.removeCallbacks(updateTrackTime)
         mediaPlayer.release()
+    }
+
+    companion object {
+        const val MEDIA_STATE_DEFAULT = 0
+        const val MEDIA_STATE_PREPARED = 1
+        const val MEDIA_STATE_PLAY = 2
+        const val MEDIA_STATE_PAUSE = 3
+        const val TIME_DELAY = 300L
+
+        fun getFactory(track: Track): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                TrackViewModel(track)
+            }
+        }
     }
 }

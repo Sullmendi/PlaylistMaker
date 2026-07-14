@@ -17,6 +17,14 @@ import com.practicum.playlistmarket2.settings.domain.api.ThemeInteractor
 
 class SettingsViewModel(private val themeInteractor: ThemeInteractor) : ViewModel() {
 
+    private val darkThemeLiveData = MutableLiveData<Boolean>()
+    fun observeDarkTheme(): LiveData<Boolean> = darkThemeLiveData
+
+    fun setTheme(isThemeDark: Boolean) {
+        themeInteractor.saveTheme(isThemeDark)
+        darkThemeLiveData.value = isThemeDark
+    }
+
     companion object {
         fun getFactory(): ViewModelProvider.Factory = viewModelFactory {
             initializer {
@@ -28,13 +36,5 @@ class SettingsViewModel(private val themeInteractor: ThemeInteractor) : ViewMode
                 )
             }
         }
-    }
-
-    private val darkThemeLiveData = MutableLiveData<Boolean>()
-    fun observeDarkTheme(): LiveData<Boolean> = darkThemeLiveData
-
-    fun setTheme(isThemeDark: Boolean) {
-        themeInteractor.saveTheme(isThemeDark)
-        darkThemeLiveData.value = isThemeDark
     }
 }

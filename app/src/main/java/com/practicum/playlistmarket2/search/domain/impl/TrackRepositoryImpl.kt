@@ -1,6 +1,6 @@
 package com.practicum.playlistmarket2.search.domain.impl
 
-import com.practicum.playlistmarket2.data.NetworkClient
+import com.practicum.playlistmarket2.data.network.NetworkClient
 import com.practicum.playlistmarket2.data.dto.TrackResponse
 import com.practicum.playlistmarket2.data.network.RetrofitNetworkClient
 import com.practicum.playlistmarket2.domain.models.Track

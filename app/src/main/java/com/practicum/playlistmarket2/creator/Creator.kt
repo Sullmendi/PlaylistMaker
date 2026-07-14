@@ -3,6 +3,8 @@ package com.practicum.playlistmarket2.creator
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import com.practicum.playlistmarket2.data.CheckNetworkConnection
+import com.practicum.playlistmarket2.data.network.CheckNetworkImpl
 import com.practicum.playlistmarket2.data.network.RetrofitNetworkClient
 import com.practicum.playlistmarket2.search.domain.api.SearchHistoryInteractor
 import com.practicum.playlistmarket2.search.domain.impl.SearchHistoryInteractorImpl
@@ -20,7 +22,7 @@ import com.practicum.playlistmarket2.settings.domain.impl.ThemeRepositoryImpl
 
 object Creator {
     private fun getTrackRepository(context: Context): TrackRepository {
-        return TrackRepositoryImpl(RetrofitNetworkClient(context))
+        return TrackRepositoryImpl(RetrofitNetworkClient(checkConnection = CheckNetworkImpl(context)))
     }
 
     fun provideTrackInteractor(context: Context): TrackInteractor {

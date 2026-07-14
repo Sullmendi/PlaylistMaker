@@ -1,4 +1,4 @@
-package com.practicum.playlistmarket2.data
+package com.practicum.playlistmarket2.data.network
 
 import com.practicum.playlistmarket2.data.dto.Response
 

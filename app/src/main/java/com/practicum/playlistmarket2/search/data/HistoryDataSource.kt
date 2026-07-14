@@ -8,11 +8,6 @@ import com.practicum.playlistmarket2.search.domain.api.SearchHistoryRepository
 
 class HistoryDataSource(val historySharedPreferences: SharedPreferences): SearchHistoryRepository {
     val gson = Gson()
-    companion object{
-        const val HISTORY_KEY = "key_for_history"
-        const val MAX_HISTORY_SIZE = 10
-    }
-
     override fun getHistory(): List<Track> {
         val json = historySharedPreferences.getString(HISTORY_KEY, null) ?: return emptyList()
         val trackHistory = gson.fromJson(json, Array<Track>::class.java)
@@ -45,5 +40,10 @@ class HistoryDataSource(val historySharedPreferences: SharedPreferences): Search
         } else{
             return false
         }
+    }
+
+    companion object{
+        const val HISTORY_KEY = "key_for_history"
+        const val MAX_HISTORY_SIZE = 10
     }
 }

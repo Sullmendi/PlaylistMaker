@@ -28,25 +28,6 @@ import com.practicum.playlistmarket2.search.ui.SearchActivity.Companion.CLICK_DE
 import com.practicum.playlistmarket2.search.ui.SearchActivity.Companion.ITEM_TRACK
 
 class SearchViewModel(private val context: Context, private val trackInteractor: TrackInteractor, private val searchHistoryInteractor: SearchHistoryInteractor): ViewModel() {
-    companion object{
-        const val SEARCH_DEBOUNCE_DELAY = 2000L
-        private val SEARCH_REQUEST_TOKEN = Any()
-
-        fun getFactory(context: Context): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val app = this[APPLICATION_KEY] as Application
-                val trackInteractor = Creator.provideTrackInteractor(context)
-                val searchHistoryInteractor = Creator.provideSearchHistoryInteractor(app)
-
-                SearchViewModel(
-                    context = context,
-                    trackInteractor = trackInteractor,
-                    searchHistoryInteractor = searchHistoryInteractor
-                )
-            }
-        }
-    }
-
     private var savedPersonText: String = ""
     private var lastSearchText: String = ""
     var trackList = mutableListOf<Track>()
@@ -184,5 +165,22 @@ class SearchViewModel(private val context: Context, private val trackInteractor:
         handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
     }
 
+    companion object{
+        const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private val SEARCH_REQUEST_TOKEN = Any()
 
+        fun getFactory(context: Context): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val app = this[APPLICATION_KEY] as Application
+                val trackInteractor = Creator.provideTrackInteractor(context)
+                val searchHistoryInteractor = Creator.provideSearchHistoryInteractor(app)
+
+                SearchViewModel(
+                    context = context,
+                    trackInteractor = trackInteractor,
+                    searchHistoryInteractor = searchHistoryInteractor
+                )
+            }
+        }
+    }
 }
