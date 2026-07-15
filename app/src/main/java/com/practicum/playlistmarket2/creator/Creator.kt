@@ -19,6 +19,7 @@ import com.practicum.playlistmarket2.settings.domain.api.ThemeInteractor
 import com.practicum.playlistmarket2.settings.domain.api.ThemeRepository
 import com.practicum.playlistmarket2.settings.domain.impl.ThemeInteractorImpl
 import com.practicum.playlistmarket2.settings.data.impl.ThemeRepositoryImpl
+import com.practicum.playlistmarket2.settings.domain.api.ThemeDataSource
 
 object Creator {
     private fun getTrackRepository(context: Context): TrackRepository {
@@ -41,7 +42,7 @@ object Creator {
         return SearchHistoryInteractorImpl(getSearchHistoryRepository(context))
     }
 
-    private fun getThemeDataSource(context: Context): ThemeDataSourceImpl{
+    private fun getThemeDataSource(context: Context): ThemeDataSource {
         return ThemeDataSourceImpl(context.getSharedPreferences("dark_theme", MODE_PRIVATE))
     }
     private fun getThemeRepository(context: Context): ThemeRepository {
