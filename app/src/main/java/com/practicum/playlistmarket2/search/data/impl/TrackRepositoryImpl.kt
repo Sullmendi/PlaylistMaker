@@ -1,12 +1,10 @@
-package com.practicum.playlistmarket2.search.domain.impl
+package com.practicum.playlistmarket2.search.data.impl
 
-import com.practicum.playlistmarket2.data.network.NetworkClient
 import com.practicum.playlistmarket2.data.dto.TrackResponse
 import com.practicum.playlistmarket2.data.network.RetrofitNetworkClient
 import com.practicum.playlistmarket2.domain.models.Track
-import com.practicum.playlistmarket2.search.data.TrackSearchRequest
+import com.practicum.playlistmarket2.search.data.network.TrackSearchRequest
 import com.practicum.playlistmarket2.search.domain.api.TrackRepository
-import java.io.IOException
 
 class TrackRepositoryImpl (private val networkClient: RetrofitNetworkClient) : TrackRepository {
 

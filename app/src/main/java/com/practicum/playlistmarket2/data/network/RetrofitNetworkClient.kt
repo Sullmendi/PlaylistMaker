@@ -6,8 +6,8 @@ import android.net.NetworkCapabilities
 import com.practicum.playlistmarket2.data.CheckNetworkConnection
 import com.practicum.playlistmarket2.data.network.NetworkClient
 import com.practicum.playlistmarket2.data.dto.Response
-import com.practicum.playlistmarket2.search.data.TrackSearchRequest
-import com.practicum.playlistmarket2.search.data.TrackItunesApi
+import com.practicum.playlistmarket2.search.data.network.TrackSearchRequest
+import com.practicum.playlistmarket2.search.data.network.TrackItunesApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

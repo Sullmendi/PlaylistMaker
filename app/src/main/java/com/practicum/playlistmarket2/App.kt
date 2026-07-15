@@ -2,8 +2,9 @@ package com.practicum.playlistmarket2
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
+import com.practicum.playlistmarket2.settings.data.impl.ThemeDataSourceImpl
 import com.practicum.playlistmarket2.settings.domain.impl.ThemeInteractorImpl
-import com.practicum.playlistmarket2.settings.domain.impl.ThemeRepositoryImpl
+import com.practicum.playlistmarket2.settings.data.impl.ThemeRepositoryImpl
 
 class App: Application(){
     private var darkTheme = false
@@ -11,7 +12,8 @@ class App: Application(){
     override fun onCreate() {
         super.onCreate()
 
-        switchTheme(ThemeInteractorImpl(ThemeRepositoryImpl(this)).getTheme())
+        val sharedPreferences = getSharedPreferences("dark_theme", MODE_PRIVATE)
+        switchTheme(ThemeInteractorImpl(ThemeRepositoryImpl(ThemeDataSourceImpl(sharedPreferences))).getTheme())
 
     }
     fun switchTheme(darkThemeEnabled: Boolean) {

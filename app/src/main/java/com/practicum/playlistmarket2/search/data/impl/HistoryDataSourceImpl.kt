@@ -1,12 +1,13 @@
-package com.practicum.playlistmarket2.search.data
+package com.practicum.playlistmarket2.search.data.impl
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.google.gson.Gson
 import com.practicum.playlistmarket2.domain.models.Track
-import com.practicum.playlistmarket2.search.domain.api.SearchHistoryRepository
+import com.practicum.playlistmarket2.search.domain.api.HistoryDataSource
 
-class HistoryDataSource(val historySharedPreferences: SharedPreferences): SearchHistoryRepository {
+class HistoryDataSourceImpl(val historySharedPreferences: SharedPreferences):
+    HistoryDataSource {
     val gson = Gson()
     override fun getHistory(): List<Track> {
         val json = historySharedPreferences.getString(HISTORY_KEY, null) ?: return emptyList()
