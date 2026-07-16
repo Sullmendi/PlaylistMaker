@@ -26,11 +26,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Visibility
 import com.practicum.playlistmarket2.R
-import com.practicum.playlistmarket2.creator.Creator
 import com.practicum.playlistmarket2.databinding.ActivitySearchBinding
 import com.practicum.playlistmarket2.domain.models.Track
 import com.practicum.playlistmarket2.player.ui.TrackActivity
 import com.practicum.playlistmarket2.search.domain.api.SearchState
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class SearchActivity : AppCompatActivity() {
@@ -38,7 +38,7 @@ class SearchActivity : AppCompatActivity() {
     var savedPersonText: String = ""
     private lateinit var trackAdapter: TrackAdapter
     private lateinit var historyTrackAdapter: TrackAdapter
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel: SearchViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,13 +51,16 @@ class SearchActivity : AppCompatActivity() {
             v.updatePadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        viewModel = ViewModelProvider(
-            this,
-            SearchViewModel.getFactory(this)
-        )[SearchViewModel::class.java]
 
         viewModel.observeState().observe(this){
             render(it)
+        }
+
+        viewModel.observeIntent().observe(this){ track ->
+            val trackIntent = Intent(this, TrackActivity::class.java).apply {
+                putExtra(ITEM_TRACK, track)
+            }
+            startActivity(trackIntent)
         }
 
         binding.buttonArrow.setOnClickListener {

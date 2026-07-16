@@ -18,7 +18,6 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.practicum.playlistmarket2.App
 import com.practicum.playlistmarket2.R
-import com.practicum.playlistmarket2.creator.Creator
 import com.practicum.playlistmarket2.domain.models.Track
 import com.practicum.playlistmarket2.player.ui.TrackActivity
 import com.practicum.playlistmarket2.search.domain.api.SearchHistoryInteractor
@@ -27,7 +26,7 @@ import com.practicum.playlistmarket2.search.domain.api.SearchState
 import com.practicum.playlistmarket2.search.ui.SearchActivity.Companion.CLICK_DEBOUNCE_DELAY
 import com.practicum.playlistmarket2.search.ui.SearchActivity.Companion.ITEM_TRACK
 
-class SearchViewModel(private val context: Context, private val trackInteractor: TrackInteractor, private val searchHistoryInteractor: SearchHistoryInteractor): ViewModel() {
+class SearchViewModel(private val trackInteractor: TrackInteractor, private val searchHistoryInteractor: SearchHistoryInteractor): ViewModel() {
     private var savedPersonText: String = ""
     private var lastSearchText: String = ""
     var trackList = mutableListOf<Track>()
@@ -36,6 +35,9 @@ class SearchViewModel(private val context: Context, private val trackInteractor:
     private var isClickAllowed = true
     private val stateLiveData = MutableLiveData<SearchState>()
     fun observeState(): LiveData<SearchState> = stateLiveData
+
+    private val intentLiveData = MutableLiveData<Track>()
+    fun observeIntent(): LiveData<Track> = intentLiveData
 
     init {
         val searchHistory = searchHistoryInteractor.getHistory()
@@ -93,12 +95,12 @@ class SearchViewModel(private val context: Context, private val trackInteractor:
                     when {
                         foundTracks == null -> {
                             renderState(
-                                SearchState.Error(context.getString(R.string.search_problem))
+                                SearchState.Error
                             )
                         }
                         tracks.isEmpty() -> {
                             renderState(
-                                SearchState.Empty(context.getString(R.string.not_found))
+                                SearchState.Empty
                             )
                         }
                         else ->{
@@ -122,10 +124,7 @@ class SearchViewModel(private val context: Context, private val trackInteractor:
             isClickAllowed = false
             handler.postDelayed({isClickAllowed = true}, CLICK_DEBOUNCE_DELAY)
             searchHistoryInteractor.addToHistory(track)
-            val trackIntent = Intent(context, TrackActivity::class.java).apply {
-                putExtra(ITEM_TRACK, track)
-            }
-            context.startActivity(trackIntent)
+            intentLiveData.value = track
         }
     }
 
@@ -168,19 +167,5 @@ class SearchViewModel(private val context: Context, private val trackInteractor:
     companion object{
         const val SEARCH_DEBOUNCE_DELAY = 2000L
         private val SEARCH_REQUEST_TOKEN = Any()
-
-        fun getFactory(context: Context): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val app = this[APPLICATION_KEY] as Application
-                val trackInteractor = Creator.provideTrackInteractor(context)
-                val searchHistoryInteractor = Creator.provideSearchHistoryInteractor(app)
-
-                SearchViewModel(
-                    context = context,
-                    trackInteractor = trackInteractor,
-                    searchHistoryInteractor = searchHistoryInteractor
-                )
-            }
-        }
     }
 }

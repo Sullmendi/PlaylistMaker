@@ -91,11 +91,5 @@ class TrackViewModel(private val track: Track): ViewModel() {
         const val MEDIA_STATE_PLAY = 2
         const val MEDIA_STATE_PAUSE = 3
         const val TIME_DELAY = 300L
-
-        fun getFactory(track: Track): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                TrackViewModel(track)
-            }
-        }
     }
 }

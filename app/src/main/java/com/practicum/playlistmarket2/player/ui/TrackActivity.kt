@@ -1,35 +1,31 @@
 package com.practicum.playlistmarket2.player.ui
 
 import android.content.Context
-import android.media.MediaPlayer
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.TypedValue
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmarket2.R
 import com.practicum.playlistmarket2.databinding.ActivityTrackBinding
 import com.practicum.playlistmarket2.domain.models.Track
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class TrackActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTrackBinding
-    private lateinit var savedTrack: Track
-    private lateinit var viewModel: TrackViewModel
-
+    private val savedTrack: Track by lazy{
+        (intent.getParcelableExtra<Track>(ITEM_TRACK) as? Track)!!
+    }
+    private val viewModel by viewModel<TrackViewModel> {
+        (parametersOf(savedTrack))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -41,13 +37,6 @@ class TrackActivity : AppCompatActivity() {
             v.updatePadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        savedTrack = (intent.getParcelableExtra<Track>(ITEM_TRACK) as? Track)!!
-
-        viewModel = ViewModelProvider(
-            this,
-            TrackViewModel.getFactory(savedTrack)
-        ).get(TrackViewModel::class.java)
 
         viewModel.observeTimer().observe(this){
             binding.playTime.text = it
