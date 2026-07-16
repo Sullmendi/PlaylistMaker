@@ -1,9 +1,10 @@
 package com.practicum.playlistmarket2
 
 import android.app.Application
-import android.content.Context
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+import com.practicum.playlistmarket2.settings.data.impl.ThemeDataSourceImpl
+import com.practicum.playlistmarket2.settings.domain.impl.ThemeInteractorImpl
+import com.practicum.playlistmarket2.settings.data.impl.ThemeRepositoryImpl
 
 class App: Application(){
     private var darkTheme = false
@@ -11,10 +12,8 @@ class App: Application(){
     override fun onCreate() {
         super.onCreate()
 
-        val sharePreference: SharedPreferences = getSharedPreferences(APP_SETTINGS, Context.MODE_PRIVATE)
-        darkTheme = sharePreference.getBoolean(DARK_THEME,false)
-
-        switchTheme(darkTheme)
+        val sharedPreferences = getSharedPreferences("dark_theme", MODE_PRIVATE)
+        switchTheme(ThemeInteractorImpl(ThemeRepositoryImpl(ThemeDataSourceImpl(sharedPreferences))).getTheme())
 
     }
     fun switchTheme(darkThemeEnabled: Boolean) {
@@ -26,16 +25,7 @@ class App: Application(){
                 AppCompatDelegate.MODE_NIGHT_NO
             }
         )
-        val sharePreference: SharedPreferences = getSharedPreferences(APP_SETTINGS, Context.MODE_PRIVATE)
-        sharePreference.edit()
-            .putBoolean(DARK_THEME, darkThemeEnabled)
-            .apply()
     }
 
     fun isDarkThemeEnabled(): Boolean = darkTheme
-
-    companion object{
-        const val APP_SETTINGS = "app_setting"
-        const val DARK_THEME = "dark_theme"
-    }
 }
