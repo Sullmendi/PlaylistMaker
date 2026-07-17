@@ -24,7 +24,7 @@ class TrackActivity : AppCompatActivity() {
         (intent.getParcelableExtra<Track>(ITEM_TRACK) as? Track)!!
     }
     private val viewModel by viewModel<TrackViewModel> {
-        (parametersOf(savedTrack))
+        parametersOf(savedTrack)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

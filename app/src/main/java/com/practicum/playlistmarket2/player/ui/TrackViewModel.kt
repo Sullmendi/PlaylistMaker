@@ -15,7 +15,7 @@ import com.practicum.playlistmarket2.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class TrackViewModel(private val track: Track): ViewModel() {
+class TrackViewModel(private val track: Track, private val mediaPlayer: MediaPlayer): ViewModel() {
     private val playerStateLiveData = MutableLiveData(MEDIA_STATE_DEFAULT)
     fun observePLayerState(): LiveData<Int> = playerStateLiveData
 
@@ -24,8 +24,6 @@ class TrackViewModel(private val track: Track): ViewModel() {
 
     private val trackLiveData = MutableLiveData(track)
     fun observeTrack(): LiveData<Track> = trackLiveData
-
-    private val mediaPlayer = MediaPlayer()
     private val mainHandler = Handler(Looper.getMainLooper())
 
     init{

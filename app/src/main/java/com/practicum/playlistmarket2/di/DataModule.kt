@@ -1,5 +1,6 @@
 package com.practicum.playlistmarket2.di
 import android.content.Context
+import android.media.MediaPlayer
 import com.google.gson.Gson
 import com.practicum.playlistmarket2.data.CheckNetworkConnection
 import com.practicum.playlistmarket2.data.network.CheckNetworkImpl
@@ -18,6 +19,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val dataModule = module {
+
+    factory{ MediaPlayer() }
 
     single<TrackItunesApi> {
             Retrofit.Builder()

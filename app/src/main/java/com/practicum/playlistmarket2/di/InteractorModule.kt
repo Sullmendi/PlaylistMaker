@@ -10,15 +10,15 @@ import org.koin.dsl.module
 
 val interactorModule = module{
 
-    single<TrackInteractor>{
+    factory <TrackInteractor>{
         TrackInteractorImpl(get())
     }
 
-    single<ThemeInteractor>{
+    factory <ThemeInteractor>{
         ThemeInteractorImpl(get())
     }
 
-    single<SearchHistoryInteractor>{
+    factory <SearchHistoryInteractor>{
         SearchHistoryInteractorImpl(get())
     }
 }
