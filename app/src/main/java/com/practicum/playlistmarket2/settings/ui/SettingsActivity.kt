@@ -18,10 +18,11 @@ import com.practicum.playlistmarket2.App
 import com.practicum.playlistmarket2.R
 import com.practicum.playlistmarket2.databinding.ActivitySettingsBinding
 import com.practicum.playlistmarket2.databinding.ActivityTrackBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsActivity : AppCompatActivity() {
 private lateinit var binding: ActivitySettingsBinding
-    private lateinit var viewModel: SettingsViewModel
+    private val viewModel: SettingsViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,11 +35,6 @@ private lateinit var binding: ActivitySettingsBinding
             v.updatePadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        viewModel = ViewModelProvider(
-            this,
-            SettingsViewModel.getFactory()
-        )[SettingsViewModel::class.java]
 
         val currentTheme = (application as App).isDarkThemeEnabled()
         binding.themeSwitch.isChecked = currentTheme

@@ -6,9 +6,8 @@ import com.google.gson.Gson
 import com.practicum.playlistmarket2.domain.models.Track
 import com.practicum.playlistmarket2.search.domain.api.HistoryDataSource
 
-class HistoryDataSourceImpl(val historySharedPreferences: SharedPreferences):
+class HistoryDataSourceImpl(private val historySharedPreferences: SharedPreferences, private val gson: Gson):
     HistoryDataSource {
-    val gson = Gson()
     override fun getHistory(): List<Track> {
         val json = historySharedPreferences.getString(HISTORY_KEY, null) ?: return emptyList()
         val trackHistory = gson.fromJson(json, Array<Track>::class.java)

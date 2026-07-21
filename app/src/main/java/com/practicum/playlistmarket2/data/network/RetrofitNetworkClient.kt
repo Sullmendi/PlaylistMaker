@@ -11,13 +11,7 @@ import com.practicum.playlistmarket2.search.data.network.TrackItunesApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitNetworkClient(private val checkConnection: CheckNetworkConnection) : NetworkClient {
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-    private val trackService = retrofit.create(TrackItunesApi::class.java)
-
+class RetrofitNetworkClient(private val checkConnection: CheckNetworkConnection, private val trackService: TrackItunesApi) : NetworkClient {
     override fun doRequest(dto: Any): Response {
         if (dto is TrackSearchRequest) {
             if(checkConnection.isConnected()){

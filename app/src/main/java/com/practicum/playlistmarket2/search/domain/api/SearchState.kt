@@ -7,6 +7,6 @@ sealed interface SearchState {
     object emptyHistory : SearchState
     data class ContentSearch(val trackList: List<Track>) : SearchState
     data class History(val historyTrackList: List<Track>): SearchState
-    data class Error(val message: String): SearchState
-    data class Empty(val message: String): SearchState
+    object Error: SearchState
+    object Empty: SearchState
 }
