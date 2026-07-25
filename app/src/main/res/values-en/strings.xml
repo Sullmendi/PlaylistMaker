@@ -24,4 +24,10 @@
     <string name="track_year">Year</string>
     <string name="track_genre">Genre</string>
     <string name="track_country">Country</string>
+    <string name="media_Keeping">Media library</string>
+    <string name="empty_media_tracks">Your media library is empty</string>
+    <string name="empty_madia_playlists">You haven\'t created any playlists</string>
+    <string name="favorite_tracks">Favorite tracks</string>
+    <string name="playlist">Playlists</string>
+    <string name="create_new_playlist">New playlist</string>
 </resources>
