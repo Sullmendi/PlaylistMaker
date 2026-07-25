@@ -1,30 +1,16 @@
 package com.practicum.playlistmarket2.search.ui
 
-import android.Manifest
-import android.app.Application
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.practicum.playlistmarket2.App
-import com.practicum.playlistmarket2.R
 import com.practicum.playlistmarket2.domain.models.Track
-import com.practicum.playlistmarket2.player.ui.TrackActivity
 import com.practicum.playlistmarket2.search.domain.api.SearchHistoryInteractor
 import com.practicum.playlistmarket2.search.domain.api.TrackInteractor
 import com.practicum.playlistmarket2.search.domain.api.SearchState
 import com.practicum.playlistmarket2.search.ui.SearchActivity.Companion.CLICK_DEBOUNCE_DELAY
-import com.practicum.playlistmarket2.search.ui.SearchActivity.Companion.ITEM_TRACK
 
 class SearchViewModel(private val trackInteractor: TrackInteractor, private val searchHistoryInteractor: SearchHistoryInteractor): ViewModel() {
     private var savedPersonText: String = ""

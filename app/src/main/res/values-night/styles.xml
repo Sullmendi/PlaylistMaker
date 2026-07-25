@@ -121,4 +121,19 @@
         <item name="fontFamily">@font/ys_display_regular</item>
     </style>
 
+    <style name="TabLayout" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/distance_forty_eight</item>
+        <item name="tabIndicatorColor">@color/white</item>
+        <item name="tabIndicator">@drawable/indicator_width</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+    </style>
+
+    <style name="TabText">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/text_fourteen</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+    </style>
+
 </resources>

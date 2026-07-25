@@ -1,7 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/media_activity"
+    android:background="?attr/colorPrimary"
+    android:orientation="vertical"
     >
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            style="@style/buttonBack"
+            app:icon="@drawable/ic_back_arrow_24"
+            android:contentDescription="@string/button_back"
+            android:id="@+id/button_arrow"
+            />
+
+        <TextView
+            style="@style/startTextUpOnPage"
+            android:text="@string/media" />
+    </LinearLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        style="@style/TabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/distance_forty_eight"
+        android:background="?attr/colorPrimary"
+        app:backgroundTint="?attr/colorPrimary"
+        app:tabTextAppearance="@style/TabText"
+        app:tabMode="fixed"/>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+</LinearLayout>
