@@ -36,6 +36,11 @@ class PlaylistFragment: Fragment() {
         binding.emptyPlaylistImage.setImageResource(com.practicum.playlistmarket2.R.drawable.ic_not_found_120)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     companion object{
         fun newInstance(): PlaylistFragment{
             return PlaylistFragment().apply {  }

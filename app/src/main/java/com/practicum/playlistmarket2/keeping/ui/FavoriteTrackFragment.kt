@@ -36,6 +36,11 @@ class FavoriteTrackFragment: Fragment() {
         binding.emptyFavoriteImage.setImageResource(R.drawable.ic_not_found_120)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     companion object{
         fun newInstance(): FavoriteTrackFragment{
             return FavoriteTrackFragment().apply {  }
