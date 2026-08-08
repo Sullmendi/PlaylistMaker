@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation_graph"
+    app:startDestination="@id/mediaFragment">
+
+    <fragment
+        android:id="@+id/favoriteTrackFragment"
+        android:name="com.practicum.playlistmarket2.keeping.ui.FavoriteTrackFragment"
+        android:label="favorite_tracks_fragment"
+        tools:layout="@layout/favorite_tracks_fragment" />
+    <fragment
+        android:id="@+id/mediaFragment"
+        android:name="com.practicum.playlistmarket2.keeping.ui.MediaFragment"
+        android:label="fragment_media"
+        tools:layout="@layout/fragment_media" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.practicum.playlistmarket2.search.ui.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_trackFragment"
+            app:destination="@id/trackFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.practicum.playlistmarket2.settings.ui.SettingFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/trackFragment"
+        android:name="com.practicum.playlistmarket2.player.ui.TrackFragment"
+        android:label="fragment_track"
+        tools:layout="@layout/fragment_track" />
+    <fragment
+        android:id="@+id/playlistFragment"
+        android:name="com.practicum.playlistmarket2.keeping.ui.PlaylistFragment"
+        android:label="playlists_fragment"
+        tools:layout="@layout/playlists_fragment" />
+</navigation>

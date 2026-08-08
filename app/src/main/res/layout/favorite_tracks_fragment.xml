@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/favorite_tracks"
     android:orientation="vertical"
-    android:background="?attr/colorPrimary">
+    android:background="?attr/colorPrimary"
+    tools:context="com.practicum.playlistmarket2.keeping.ui.FavoriteTrackFragment">
 <ImageView
     android:id="@+id/empty_favorite_image"
     android:layout_width="120dp"

@@ -27,7 +27,7 @@ class FavoriteTrackFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.observeState().observe(this){
+        viewModel.observeState().observe(viewLifecycleOwner){
             render(it)
         }
     }

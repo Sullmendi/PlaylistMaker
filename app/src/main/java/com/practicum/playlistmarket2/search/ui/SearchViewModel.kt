@@ -10,7 +10,7 @@ import com.practicum.playlistmarket2.domain.models.Track
 import com.practicum.playlistmarket2.search.domain.api.SearchHistoryInteractor
 import com.practicum.playlistmarket2.search.domain.api.TrackInteractor
 import com.practicum.playlistmarket2.search.domain.api.SearchState
-import com.practicum.playlistmarket2.search.ui.SearchActivity.Companion.CLICK_DEBOUNCE_DELAY
+import com.practicum.playlistmarket2.search.ui.SearchFragment.Companion.CLICK_DEBOUNCE_DELAY
 
 class SearchViewModel(private val trackInteractor: TrackInteractor, private val searchHistoryInteractor: SearchHistoryInteractor): ViewModel() {
     private var savedPersonText: String = ""
@@ -22,8 +22,8 @@ class SearchViewModel(private val trackInteractor: TrackInteractor, private val 
     private val stateLiveData = MutableLiveData<SearchState>()
     fun observeState(): LiveData<SearchState> = stateLiveData
 
-    private val intentLiveData = MutableLiveData<Track>()
-    fun observeIntent(): LiveData<Track> = intentLiveData
+    private val intentLiveData = MutableLiveData<Track?>()
+    fun observeIntent(): LiveData<Track?> = intentLiveData
 
     init {
         val searchHistory = searchHistoryInteractor.getHistory()
@@ -112,6 +112,10 @@ class SearchViewModel(private val trackInteractor: TrackInteractor, private val 
             searchHistoryInteractor.addToHistory(track)
             intentLiveData.value = track
         }
+    }
+
+    fun cleanTrack() {
+        intentLiveData.value = null
     }
 
     fun showHistory(){
