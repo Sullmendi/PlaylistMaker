@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.R
 import androidx.fragment.app.Fragment
 import com.practicum.playlistmarket2.databinding.PlaylistsFragmentBinding
 import com.practicum.playlistmarket2.keeping.domain.api.PlaylistState
@@ -27,7 +26,7 @@ class PlaylistFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.observeState().observe(this){
+        viewModel.observeState().observe(viewLifecycleOwner){
             render(it)
         }
     }

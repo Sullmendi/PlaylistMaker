@@ -3,11 +3,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/search_activity"
+    android:id="@+id/search_fragment"
     android:background="?attr/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    tools:context="com.practicum.playlistmarket2.search.ui.SearchFragment"
     >
 
     <LinearLayout
@@ -15,15 +16,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
-            style="@style/buttonBack"
-            app:icon="@drawable/ic_back_arrow_24"
-            android:contentDescription="@string/button_back"
-            android:id="@+id/button_arrow"
-            />
-
         <TextView
+            android:layout_height="@dimen/distance_forty_eight"
             style="@style/startTextUpOnPage"
+            android:layout_marginStart="@dimen/distance_sixteen"
             android:text="@string/search_text" />
     </LinearLayout>
     <FrameLayout

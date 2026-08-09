@@ -3,11 +3,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/settings_activity"
+    android:id="@+id/settings_fragment"
     android:background="?attr/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    tools:context="com.practicum.playlistmarket2.settings.ui.SettingFragment"
     >
 
     <LinearLayout
@@ -15,15 +16,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
-            app:icon="@drawable/ic_back_arrow_24"
-            style="@style/buttonBack"
-            android:contentDescription="@string/button_back"
-            android:id="@+id/button_arrow"
-            />
-
         <TextView
+            android:layout_height="@dimen/distance_forty_eight"
             android:text="@string/settings"
+            android:layout_marginStart="@dimen/distance_sixteen"
             style="@style/startTextUpOnPage"/>
     </LinearLayout>
 
