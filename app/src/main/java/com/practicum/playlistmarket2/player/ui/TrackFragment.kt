@@ -22,7 +22,9 @@ import java.util.Locale
 import kotlin.getValue
 
 class TrackFragment: Fragment() {
-    private lateinit var binding: FragmentTrackBinding
+    private var _binding: FragmentTrackBinding? = null
+
+    private val binding get() = _binding!!
     private val savedTrack: Track by lazy{
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requireArguments().getParcelable(ITEM_TRACK, Track::class.java)!!
@@ -39,7 +41,7 @@ class TrackFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentTrackBinding.inflate(inflater,container, false)
+        _binding = FragmentTrackBinding.inflate(inflater,container, false)
         return binding.root
     }
 
@@ -111,6 +113,7 @@ class TrackFragment: Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        _binding = null
     }
     companion object {
         const val ITEM_TRACK = "item_track"

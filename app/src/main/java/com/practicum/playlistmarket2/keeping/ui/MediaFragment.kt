@@ -10,7 +10,8 @@ import com.practicum.playlistmarket2.R
 import com.practicum.playlistmarket2.databinding.FragmentMediaBinding
 
 class MediaFragment : Fragment() {
-    private lateinit var binding: FragmentMediaBinding
+    private var _binding: FragmentMediaBinding? = null
+    private val binding get() = _binding!!
     private lateinit var tabLayoutMediator: TabLayoutMediator
 
     override fun onCreateView(
@@ -18,7 +19,7 @@ class MediaFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMediaBinding.inflate(inflater,container, false)
+        _binding = FragmentMediaBinding.inflate(inflater,container, false)
         return binding.root
     }
 
@@ -38,5 +39,6 @@ class MediaFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         tabLayoutMediator.detach()
+        _binding = null
     }
 }

@@ -13,7 +13,7 @@ import com.practicum.playlistmarket2.search.domain.api.SearchState
 import com.practicum.playlistmarket2.search.ui.SearchFragment.Companion.CLICK_DEBOUNCE_DELAY
 
 class SearchViewModel(private val trackInteractor: TrackInteractor, private val searchHistoryInteractor: SearchHistoryInteractor): ViewModel() {
-    private var savedPersonText: String = ""
+    var savedPersonText: String = ""
     private var lastSearchText: String = ""
     var trackList = mutableListOf<Track>()
     var historyTrackList = mutableListOf<Track>()
