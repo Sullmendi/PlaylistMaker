@@ -15,6 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmarket2.R
 import com.practicum.playlistmarket2.databinding.FragmentTrackBinding
 import com.practicum.playlistmarket2.domain.models.Track
+import com.practicum.playlistmarket2.player.domain.PlayerState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.text.SimpleDateFormat
@@ -48,24 +49,10 @@ class TrackFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-            viewModel.observeTimer().observe(viewLifecycleOwner){
-                binding.playTime.text = it
-            }
-
             viewModel.observePLayerState().observe(viewLifecycleOwner){
-                when(it){
-                    TrackViewModel.MEDIA_STATE_PREPARED, TrackViewModel.MEDIA_STATE_DEFAULT -> {
-                        binding.buttonPlay.setImageResource(R.drawable.ic_button_play_100)
-                    }
-
-                    TrackViewModel.MEDIA_STATE_PLAY ->{
-                        binding.buttonPlay.setImageResource(R.drawable.ic_button_stop_100)
-                    }
-
-                    TrackViewModel.MEDIA_STATE_PAUSE -> {
-                        binding.buttonPlay.setImageResource(R.drawable.ic_button_play_100)
-                    }
-                }
+                binding.buttonPlay.isEnabled = it.isPlayButtonEnabled
+                binding.buttonPlay.setImageResource(it.buttonImage)
+                binding.playTime.text = it.progress
             }
 
             viewModel.observeTrack().observe(viewLifecycleOwner){

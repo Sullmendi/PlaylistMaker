@@ -1,24 +1,25 @@
 package com.practicum.playlistmarket2.search.ui
 
-import android.os.Handler
-import android.os.Looper
-import android.os.SystemClock
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmarket2.domain.models.Track
 import com.practicum.playlistmarket2.search.domain.api.SearchHistoryInteractor
-import com.practicum.playlistmarket2.search.domain.api.TrackInteractor
 import com.practicum.playlistmarket2.search.domain.api.SearchState
+import com.practicum.playlistmarket2.search.domain.api.TrackInteractor
 import com.practicum.playlistmarket2.search.ui.SearchFragment.Companion.CLICK_DEBOUNCE_DELAY
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SearchViewModel(private val trackInteractor: TrackInteractor, private val searchHistoryInteractor: SearchHistoryInteractor): ViewModel() {
     var savedPersonText: String = ""
     private var lastSearchText: String = ""
     var trackList = mutableListOf<Track>()
     var historyTrackList = mutableListOf<Track>()
-    private val handler = Handler(Looper.getMainLooper())
     private var isClickAllowed = true
+    private var searchJob: Job? = null
     private val stateLiveData = MutableLiveData<SearchState>()
     fun observeState(): LiveData<SearchState> = stateLiveData
 
@@ -40,7 +41,8 @@ class SearchViewModel(private val trackInteractor: TrackInteractor, private val 
             return
         }
         this.savedPersonText = changedText
-        handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
+        lastSearchText = changedText
+
         if(changedText.isEmpty()) {
             if (searchHistoryInteractor.isEmpty()) {
                 renderState(
@@ -53,14 +55,12 @@ class SearchViewModel(private val trackInteractor: TrackInteractor, private val 
             }
             return
         }
-        lastSearchText = changedText
-        val searchRunnable = Runnable { doSearch(changedText) }
-        val postTime = SystemClock.uptimeMillis() + SEARCH_DEBOUNCE_DELAY
-        handler.postAtTime(
-                searchRunnable,
-                SEARCH_REQUEST_TOKEN,
-                postTime
-        )
+
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(SEARCH_DEBOUNCE_DELAY)
+            doSearch(changedText)
+        }
     }
 
     fun doSearch(query:String){
@@ -71,9 +71,11 @@ class SearchViewModel(private val trackInteractor: TrackInteractor, private val 
             )
         }
 
-        trackInteractor.searchTrack(query,object : TrackInteractor.TrackConsumer {
-            override fun consume(foundTracks: List<Track>?) {
-                handler.post {
+        viewModelScope.launch {
+            trackInteractor
+                .searchTrack(query)
+                .collect { pair ->
+                    val foundTracks = pair.first
                     val tracks = mutableListOf<Track>()
                     if (foundTracks!= null){
                         tracks.addAll(foundTracks)
@@ -96,9 +98,7 @@ class SearchViewModel(private val trackInteractor: TrackInteractor, private val 
                         }
                     }
                 }
-            }
-
-        })
+        }
     }
 
     fun renderState(state: SearchState){
@@ -108,7 +108,10 @@ class SearchViewModel(private val trackInteractor: TrackInteractor, private val 
     fun openTrack(track: Track) {
         if (isClickAllowed){
             isClickAllowed = false
-            handler.postDelayed({isClickAllowed = true}, CLICK_DEBOUNCE_DELAY)
+            viewModelScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY)
+                isClickAllowed = true
+            }
             searchHistoryInteractor.addToHistory(track)
             intentLiveData.value = track
         }
@@ -151,11 +154,9 @@ class SearchViewModel(private val trackInteractor: TrackInteractor, private val 
 
     override fun onCleared() {
         super.onCleared()
-        handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
     }
 
     companion object{
         const val SEARCH_DEBOUNCE_DELAY = 2000L
-        private val SEARCH_REQUEST_TOKEN = Any()
     }
 }
