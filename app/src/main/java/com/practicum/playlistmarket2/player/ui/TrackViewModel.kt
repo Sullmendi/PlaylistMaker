@@ -1,30 +1,25 @@
 package com.practicum.playlistmarket2.player.ui
 
-import android.content.Context
 import android.media.MediaPlayer
-import android.os.Handler
-import android.os.Looper
-import android.util.TypedValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmarket2.domain.models.Track
+import com.practicum.playlistmarket2.player.domain.PlayerState
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class TrackViewModel(private val track: Track, private val mediaPlayer: MediaPlayer): ViewModel() {
-    private val playerStateLiveData = MutableLiveData(MEDIA_STATE_DEFAULT)
-    fun observePLayerState(): LiveData<Int> = playerStateLiveData
-
-    private val timerLiveData = MutableLiveData("00:00")
-    fun observeTimer(): LiveData<String> = timerLiveData
+    private var timerJob: Job? = null
+    private val playerStateLiveData = MutableLiveData<PlayerState>(PlayerState.Default())
+    fun observePLayerState(): LiveData<PlayerState> = playerStateLiveData
 
     private val trackLiveData = MutableLiveData(track)
     fun observeTrack(): LiveData<Track> = trackLiveData
-    private val mainHandler = Handler(Looper.getMainLooper())
 
     init{
         prepareMediaPlayer()
@@ -37,57 +32,58 @@ class TrackViewModel(private val track: Track, private val mediaPlayer: MediaPla
         mediaPlayer.setDataSource(track.previewUrl)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
-            playerStateLiveData.postValue(MEDIA_STATE_PREPARED)
+            playerStateLiveData.postValue(PlayerState.Prepared())
         }
 
         mediaPlayer.setOnCompletionListener {
-            playerStateLiveData.postValue(MEDIA_STATE_PREPARED)
-            mainHandler.removeCallbacks(updateTrackTime)
+            timerJob?.cancel()
+            playerStateLiveData.postValue(PlayerState.Prepared())
         }
     }
 
     private fun startPlayMusic(){
         mediaPlayer.start()
-        playerStateLiveData.postValue(MEDIA_STATE_PLAY)
-        mainHandler.post(updateTrackTime)
+        playerStateLiveData.postValue(PlayerState.Playing(getCurrentPlayerPosition()))
+        updateTrackTime()
     }
     fun pausePlayMusic(){
         mediaPlayer.pause()
-        playerStateLiveData.postValue(MEDIA_STATE_PAUSE)
-        mainHandler.removeCallbacks(updateTrackTime)
+        timerJob?.cancel()
+        playerStateLiveData.postValue(PlayerState.Paused(getCurrentPlayerPosition()))
     }
 
     fun playControl(){
         when(playerStateLiveData.value){
-            MEDIA_STATE_PLAY -> {
+            is PlayerState.Playing -> {
                 pausePlayMusic()
             }
-            MEDIA_STATE_PREPARED,MEDIA_STATE_PAUSE -> {
+            is PlayerState.Prepared, is PlayerState.Paused -> {
                 startPlayMusic()
+            }
+            else -> {}
+        }
+    }
+
+    private fun updateTrackTime() {
+        timerJob = viewModelScope.launch {
+            while (mediaPlayer.isPlaying){
+                delay(TIME_DELAY)
+                playerStateLiveData.postValue(PlayerState.Playing(getCurrentPlayerPosition()))
             }
         }
     }
 
-    private val updateTrackTime = object : Runnable {
-        override fun run() {
-            if(playerStateLiveData.value == MEDIA_STATE_PLAY){
-                timerLiveData.postValue(SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition))
-                mainHandler.postDelayed(this,TIME_DELAY)
-            }
-        }
+    private fun getCurrentPlayerPosition(): String {
+        return SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition) ?: "00:00"
     }
 
     override fun onCleared() {
         super.onCleared()
-        mainHandler.removeCallbacks(updateTrackTime)
         mediaPlayer.release()
+        playerStateLiveData.value = PlayerState.Default()
     }
 
     companion object {
-        const val MEDIA_STATE_DEFAULT = 0
-        const val MEDIA_STATE_PREPARED = 1
-        const val MEDIA_STATE_PLAY = 2
-        const val MEDIA_STATE_PAUSE = 3
         const val TIME_DELAY = 300L
     }
 }
