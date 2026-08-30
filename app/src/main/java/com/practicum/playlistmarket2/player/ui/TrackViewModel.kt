@@ -8,12 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmarket2.domain.models.Track
 import com.practicum.playlistmarket2.mediateka.domain.db.FavoriteTrackInteractor
 import com.practicum.playlistmarket2.player.domain.PlayerState
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
