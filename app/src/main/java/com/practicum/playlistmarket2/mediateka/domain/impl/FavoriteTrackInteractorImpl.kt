@@ -17,4 +17,8 @@ class FavoriteTrackInteractorImpl(private val favoriteTrackRepository: FavoriteT
     override suspend fun addFavoriteTrack(track: Track) {
         favoriteTrackRepository.insertTrack(track)
     }
+
+    override suspend fun isTrackFavorite(track: Track): Boolean {
+        return favoriteTrackRepository.isTrackFavorite(track)
+    }
 }

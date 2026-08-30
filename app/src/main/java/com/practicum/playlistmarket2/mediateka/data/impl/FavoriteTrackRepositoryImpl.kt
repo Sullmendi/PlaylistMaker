@@ -26,6 +26,12 @@ class FavoriteTrackRepositoryImpl(
         appDatabase.trackDao().insertTrack(tracksDbConverter.map(track))
     }
 
+    override suspend fun isTrackFavorite(track: Track): Boolean {
+        val trackDb = tracksDbConverter.map(track)
+        val favoriteTrackIds = appDatabase.trackDao().findFavoriteTrack()
+        return favoriteTrackIds.contains(trackDb.trackId)
+    }
+
     private fun convertFromTrackEntity(track: List<TracksEntity>): List<Track> {
         return track.map { track -> tracksDbConverter.map(track) }
     }

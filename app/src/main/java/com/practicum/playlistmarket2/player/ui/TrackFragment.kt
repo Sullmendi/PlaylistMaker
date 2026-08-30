@@ -65,6 +65,7 @@ class TrackFragment: Fragment() {
                     binding.primaryGenreName.text = it.primaryGenreName
                     binding.country.text = it.country
 
+
                     Glide.with(this)
                         .load(getCoverArtwork(it))
                         .centerCrop()
@@ -72,6 +73,7 @@ class TrackFragment: Fragment() {
                         .transform(RoundedCorners(dpToPx(8f, requireContext())))
                         .into(binding.trackImage)
                 }
+                savedTrack.isFavorite = it.isFavorite
                 if(savedTrack.isFavorite){
                     binding.buttonLike.setImageResource(R.drawable.ic_button_like_done_51)
                 } else{

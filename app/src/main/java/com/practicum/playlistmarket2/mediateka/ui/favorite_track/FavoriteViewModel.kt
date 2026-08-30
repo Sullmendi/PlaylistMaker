@@ -44,9 +44,6 @@ init {
     fun showResults(tracks: List<Track>){
         favoriteTrackList.clear()
         favoriteTrackList.addAll(tracks)
-        for (track in favoriteTrackList){
-            track.isFavorite = true
-        }
         if(favoriteTrackList.isEmpty()){
             renderState(FavoriteTrackState.Empty)
         } else{
