@@ -1,12 +1,15 @@
 package com.practicum.playlistmarket2.di
 import android.content.Context
 import android.media.MediaPlayer
+import androidx.room.Room
 import com.google.gson.Gson
 import com.practicum.playlistmarket2.data.CheckNetworkConnection
+import com.practicum.playlistmarket2.mediateka.data.AppDatabase
 import com.practicum.playlistmarket2.data.network.CheckNetworkImpl
 import com.practicum.playlistmarket2.data.network.NetworkClient
 import com.practicum.playlistmarket2.data.network.RetrofitNetworkClient
 import com.practicum.playlistmarket2.data.network.RetrofitNetworkClient.Companion.BASE_URL
+import com.practicum.playlistmarket2.mediateka.data.MIGRATION_1_2
 import com.practicum.playlistmarket2.search.data.impl.HistoryDataSourceImpl
 import com.practicum.playlistmarket2.search.data.network.TrackItunesApi
 import com.practicum.playlistmarket2.search.domain.api.HistoryDataSource
@@ -43,7 +46,7 @@ val dataModule = module {
     factory { Gson() }
 
     single<HistoryDataSource>{
-        HistoryDataSourceImpl(get(named("history")), get())
+        HistoryDataSourceImpl(get(named("history")), get(), get())
     }
 
     single<ThemeDataSource>{
@@ -57,5 +60,13 @@ val dataModule = module {
     single<NetworkClient>{
         RetrofitNetworkClient(get(), get())
     }
+
+    single {
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
+            .addMigrations(MIGRATION_1_2)
+            .build()
+    }
+
+    single { get<AppDatabase>().trackDao() }
 
     }

@@ -1,4 +1,4 @@
-package com.practicum.playlistmarket2.keeping.ui
+package com.practicum.playlistmarket2.mediateka.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

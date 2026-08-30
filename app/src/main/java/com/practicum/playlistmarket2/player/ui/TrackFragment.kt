@@ -72,6 +72,11 @@ class TrackFragment: Fragment() {
                         .transform(RoundedCorners(dpToPx(8f, requireContext())))
                         .into(binding.trackImage)
                 }
+                if(savedTrack.isFavorite){
+                    binding.buttonLike.setImageResource(R.drawable.ic_button_like_done_51)
+                } else{
+                    binding.buttonLike.setImageResource(R.drawable.ic_button_like_51)
+                }
             }
 
             binding.buttonPlay.setOnClickListener {
@@ -81,6 +86,10 @@ class TrackFragment: Fragment() {
             binding.buttonArrow.setOnClickListener {
                 findNavController().popBackStack(R.id.searchFragment, false)
             }
+
+        binding.buttonLike.setOnClickListener {
+            viewModel.onFavoriteClicked()
+        }
 
         }
 

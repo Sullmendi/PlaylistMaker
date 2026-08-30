@@ -4,17 +4,26 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.google.gson.Gson
 import com.practicum.playlistmarket2.domain.models.Track
+import com.practicum.playlistmarket2.mediateka.data.AppDatabase
 import com.practicum.playlistmarket2.search.domain.api.HistoryDataSource
+import kotlinx.coroutines.flow.map
 
-class HistoryDataSourceImpl(private val historySharedPreferences: SharedPreferences, private val gson: Gson):
+class HistoryDataSourceImpl(private val historySharedPreferences: SharedPreferences, private val gson: Gson, val appDatabase: AppDatabase):
     HistoryDataSource {
-    override fun getHistory(): List<Track> {
+    override suspend fun getHistory(): List<Track> {
         val json = historySharedPreferences.getString(HISTORY_KEY, null) ?: return emptyList()
         val trackHistory = gson.fromJson(json, Array<Track>::class.java)
+        val listFavoriteId = appDatabase.trackDao().findFavoriteTrack()
+
+        for(track in trackHistory){
+            if(listFavoriteId.contains(track.trackId)){
+                track.isFavorite = true
+            }
+        }
         return  trackHistory?.toMutableList() ?: emptyList()
     }
 
-    override fun addToHistory(track: Track) {
+    override suspend fun addToHistory(track: Track) {
         val trackHistory = getHistory().toMutableList()
         trackHistory.removeIf { it.trackId == track.trackId }
         trackHistory.add(0,track)
@@ -33,7 +42,7 @@ class HistoryDataSourceImpl(private val historySharedPreferences: SharedPreferen
     }
 
 
-    override fun isEmpty(): Boolean {
+    override suspend fun isEmpty(): Boolean {
         val trackHistory = getHistory().toMutableList()
         if(trackHistory.isEmpty()){
             return true

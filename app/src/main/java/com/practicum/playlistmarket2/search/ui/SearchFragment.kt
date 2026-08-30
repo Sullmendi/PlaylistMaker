@@ -65,11 +65,6 @@ class SearchFragment: Fragment() {
 
             historyTrackAdapter = TrackAdapter(viewModel.historyTrackList) { track ->
                 viewModel.openTrack(track)
-
-                val updatedHistory = viewModel.readHistory()
-                viewModel.historyTrackList.clear()
-                viewModel.historyTrackList.addAll(updatedHistory)
-                historyTrackAdapter.notifyDataSetChanged()
             }
             binding.recyclerHistoryViewTrack.adapter = historyTrackAdapter
 
@@ -113,10 +108,6 @@ class SearchFragment: Fragment() {
                     placeholderMessage.visibility = View.GONE
                     recyclerViewTrack.visibility = View.GONE
                 }
-                val updatedHistory = viewModel.readHistory()
-                viewModel.historyTrackList.clear()
-                viewModel.historyTrackList.addAll(updatedHistory)
-                historyTrackAdapter.notifyDataSetChanged()
             } else {
                 binding.searchHistory.visibility = View.GONE
 
@@ -172,6 +163,9 @@ class SearchFragment: Fragment() {
                     showHistoryVisible(false)
                 }
                 is SearchState.History -> {
+                    viewModel.historyTrackList.clear()
+                    viewModel.historyTrackList.addAll(state.historyTrackList)
+                    historyTrackAdapter.notifyDataSetChanged()
                     binding.apply {
                         progressBar.visibility = View.GONE
                         placeholderMessage.visibility = View.GONE

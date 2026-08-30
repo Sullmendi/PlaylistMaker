@@ -6,7 +6,7 @@
     android:id="@+id/favorite_tracks"
     android:orientation="vertical"
     android:background="?attr/colorPrimary"
-    tools:context="com.practicum.playlistmarket2.keeping.ui.PlaylistFragment">
+    tools:context="com.practicum.playlistmarket2.mediateka.ui.playlist.PlaylistFragment">
     <Button
         android:id="@+id/refresh_button"
         style="@style/refreshButton"

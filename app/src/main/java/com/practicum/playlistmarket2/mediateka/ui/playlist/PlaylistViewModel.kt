@@ -1,9 +1,9 @@
-package com.practicum.playlistmarket2.keeping.ui
+package com.practicum.playlistmarket2.mediateka.ui.playlist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.practicum.playlistmarket2.keeping.domain.api.PlaylistState
+import com.practicum.playlistmarket2.mediateka.domain.api.PlaylistState
 
 class PlaylistViewModel: ViewModel() {
     private val stateLiveData = MutableLiveData<PlaylistState>()
