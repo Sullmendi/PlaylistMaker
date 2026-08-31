@@ -6,11 +6,11 @@ import com.practicum.playlistmarket2.search.domain.api.SearchHistoryRepository
 
 class SearchHistoryInteractorImpl(private val repository: SearchHistoryRepository):
     SearchHistoryInteractor {
-    override fun getHistory(): List<Track> {
+    override suspend fun getHistory(): List<Track> {
         return repository.getHistory()
     }
 
-    override fun addToHistory(track: Track) {
+    override suspend fun addToHistory(track: Track) {
         repository.addToHistory(track)
     }
 
@@ -18,7 +18,7 @@ class SearchHistoryInteractorImpl(private val repository: SearchHistoryRepositor
         repository.clearHistory()
     }
 
-    override fun isEmpty(): Boolean {
+    override suspend fun isEmpty(): Boolean {
         return repository.isEmpty()
     }
 

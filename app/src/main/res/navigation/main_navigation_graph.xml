@@ -7,14 +7,18 @@
 
     <fragment
         android:id="@+id/favoriteTrackFragment"
-        android:name="com.practicum.playlistmarket2.keeping.ui.FavoriteTrackFragment"
+        android:name="com.practicum.playlistmarket2.mediateka.ui.favorite_track.FavoriteTrackFragment"
         android:label="favorite_tracks_fragment"
         tools:layout="@layout/favorite_tracks_fragment" />
     <fragment
         android:id="@+id/mediaFragment"
-        android:name="com.practicum.playlistmarket2.keeping.ui.MediaFragment"
+        android:name="com.practicum.playlistmarket2.mediateka.ui.MediaFragment"
         android:label="fragment_media"
-        tools:layout="@layout/fragment_media" />
+        tools:layout="@layout/fragment_media" >
+        <action
+            android:id="@+id/action_mediaFragment_to_trackFragment"
+            app:destination="@id/trackFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.practicum.playlistmarket2.search.ui.SearchFragment"
@@ -36,7 +40,7 @@
         tools:layout="@layout/fragment_track" />
     <fragment
         android:id="@+id/playlistFragment"
-        android:name="com.practicum.playlistmarket2.keeping.ui.PlaylistFragment"
+        android:name="com.practicum.playlistmarket2.mediateka.ui.playlist.PlaylistFragment"
         android:label="playlists_fragment"
         tools:layout="@layout/playlists_fragment" />
 </navigation>

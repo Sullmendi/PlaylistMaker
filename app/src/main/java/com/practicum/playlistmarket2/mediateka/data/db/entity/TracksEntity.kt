@@ -1,10 +1,11 @@
-package com.practicum.playlistmarket2.domain.models
+package com.practicum.playlistmarket2.mediateka.data.db.entity
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Parcelize
-data class Track (
+@Entity(tableName = "films_table")
+data class TracksEntity(
+    @PrimaryKey
     val trackId: String,
     val trackName: String,
     val artistName: String,
@@ -15,5 +16,6 @@ data class Track (
     val primaryGenreName: String,
     val country: String,
     val previewUrl: String?,
-    var isFavorite: Boolean = false
-) : Parcelable
+    var isFavorite: Boolean = false,
+    val createdAt: Long = System.currentTimeMillis()
+)

@@ -1,4 +1,4 @@
-package com.practicum.playlistmarket2.keeping.domain.api
+package com.practicum.playlistmarket2.mediateka.domain.api
 
 interface PlaylistState {
     object Empty: PlaylistState

@@ -7,7 +7,7 @@
     android:background="?attr/colorPrimary"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.practicum.playlistmarket2.keeping.ui.MediaFragment"
+    tools:context="com.practicum.playlistmarket2.mediateka.ui.MediaFragment"
     >
 
     <LinearLayout

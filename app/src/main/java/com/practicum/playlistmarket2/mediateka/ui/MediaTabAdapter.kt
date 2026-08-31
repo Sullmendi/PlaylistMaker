@@ -1,9 +1,11 @@
-package com.practicum.playlistmarket2.keeping.ui
+package com.practicum.playlistmarket2.mediateka.ui
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.practicum.playlistmarket2.mediateka.ui.favorite_track.FavoriteTrackFragment
+import com.practicum.playlistmarket2.mediateka.ui.playlist.PlaylistFragment
 
 class MediaTabAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle): FragmentStateAdapter(fragmentManager,lifecycle) {
     override fun createFragment(position: Int): Fragment {

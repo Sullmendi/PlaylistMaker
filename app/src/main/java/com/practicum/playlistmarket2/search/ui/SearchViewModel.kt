@@ -27,11 +27,13 @@ class SearchViewModel(private val trackInteractor: TrackInteractor, private val 
     fun observeIntent(): LiveData<Track?> = intentLiveData
 
     init {
-        val searchHistory = searchHistoryInteractor.getHistory()
-        if(searchHistory.isNotEmpty()){
-            stateLiveData.value = SearchState.History(searchHistory)
-        } else{
-            stateLiveData.value = SearchState.emptyHistory
+        viewModelScope.launch {
+            val searchHistory = searchHistoryInteractor.getHistory()
+            if(searchHistory.isNotEmpty()){
+                stateLiveData.value = SearchState.History(searchHistory)
+            } else{
+                stateLiveData.value = SearchState.emptyHistory
+            }
         }
     }
 
@@ -44,14 +46,13 @@ class SearchViewModel(private val trackInteractor: TrackInteractor, private val 
         lastSearchText = changedText
 
         if(changedText.isEmpty()) {
-            if (searchHistoryInteractor.isEmpty()) {
-                renderState(
-                    SearchState.emptyHistory
-                )
-            } else {
-                renderState(
-                    SearchState.History(searchHistoryInteractor.getHistory())
-                )
+            viewModelScope.launch {
+                val history = searchHistoryInteractor.getHistory()
+                if (history.isEmpty()) {
+                    renderState(SearchState.emptyHistory)
+                } else {
+                    renderState(SearchState.History(history))
+                }
             }
             return
         }
@@ -108,12 +109,15 @@ class SearchViewModel(private val trackInteractor: TrackInteractor, private val 
     fun openTrack(track: Track) {
         if (isClickAllowed){
             isClickAllowed = false
+
+            intentLiveData.value = track
+
             viewModelScope.launch {
                 delay(CLICK_DEBOUNCE_DELAY)
                 isClickAllowed = true
+                searchHistoryInteractor.addToHistory(track)
             }
-            searchHistoryInteractor.addToHistory(track)
-            intentLiveData.value = track
+
         }
     }
 
@@ -122,15 +126,17 @@ class SearchViewModel(private val trackInteractor: TrackInteractor, private val 
     }
 
     fun showHistory(){
-        val sherPref = searchHistoryInteractor.getHistory()
-        if (sherPref.isNotEmpty()) {
-            renderState(
-                SearchState.History(sherPref)
-            )
-        } else{
-           renderState(
-               SearchState.emptyHistory
-           )
+        viewModelScope.launch {
+            val sherPref = searchHistoryInteractor.getHistory()
+            if (sherPref.isNotEmpty()) {
+                renderState(
+                    SearchState.History(sherPref)
+                )
+            } else{
+                renderState(
+                    SearchState.emptyHistory
+                )
+            }
         }
     }
 
@@ -140,9 +146,8 @@ class SearchViewModel(private val trackInteractor: TrackInteractor, private val 
             SearchState.emptyHistory
         )
     }
-    fun readHistory(): List<Track>{
-        return searchHistoryInteractor.getHistory()
-    }
+
+    suspend fun readHistory(): List<Track> = searchHistoryInteractor.getHistory()
 
     fun lastSearchRetry(){
         if(lastSearchText.isNotEmpty()){

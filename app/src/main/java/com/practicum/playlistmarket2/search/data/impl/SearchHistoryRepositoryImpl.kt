@@ -7,11 +7,11 @@ import com.practicum.playlistmarket2.search.domain.api.SearchHistoryRepository
 class SearchHistoryRepositoryImpl(private val dataSource: HistoryDataSource):
     SearchHistoryRepository {
 
-    override fun getHistory(): List<Track> {
+    override suspend fun getHistory(): List<Track> {
         return dataSource.getHistory()
     }
 
-    override fun addToHistory(track: Track) {
+    override suspend fun addToHistory(track: Track) {
         dataSource.addToHistory(track)
     }
 
@@ -19,7 +19,7 @@ class SearchHistoryRepositoryImpl(private val dataSource: HistoryDataSource):
         dataSource.clearHistory()
     }
 
-    override fun isEmpty(): Boolean {
+    override suspend fun isEmpty(): Boolean {
         return dataSource.isEmpty()
     }
 }
