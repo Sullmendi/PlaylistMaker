@@ -10,6 +10,8 @@ import com.practicum.playlistmarket2.mediateka.domain.db.FavoriteTrackInteractor
 import com.practicum.playlistmarket2.player.domain.PlayerState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -25,10 +27,11 @@ class TrackViewModel(private val track: Track, private val mediaPlayer: MediaPla
     init{
         prepareMediaPlayer()
 
-        viewModelScope.launch() {
-            track.isFavorite = favoriteTrackInteractor.isTrackFavorite(track)
-            trackLiveData.postValue(track)
+        favoriteTrackInteractor.favoriteTracks().onEach { tracks ->
+            val isFavorite = tracks.any { it.trackId == track.trackId }
+            trackLiveData.postValue(track.copy(isFavorite = isFavorite))
         }
+            .launchIn(viewModelScope)
     }
 
     private fun prepareMediaPlayer(){
