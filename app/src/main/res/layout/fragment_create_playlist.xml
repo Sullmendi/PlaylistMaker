@@ -46,24 +46,30 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/distance_sixteen" />
 
-        <ImageView
+        <LinearLayout
             android:id="@+id/playlistImage"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="26dp"
-            android:scaleType="centerCrop"
             app:layout_constraintStart_toEndOf="@id/leftBorder"
             app:layout_constraintEnd_toStartOf="@id/rightBorder"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintDimensionRatio="h,1:1"
             android:layout_marginLeft="@dimen/distance_eight"
             android:layout_marginRight="@dimen/distance_eight"
-            android:src="@drawable/ic_create_playlist_312"
             android:background="@drawable/playlist_image_shape"
-            android:padding="1dp"
             android:cropToPadding="true"
             android:clipToPadding="true"
-            />
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:id="@+id/inside_playlist_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_photo_100"
+                />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/edit_text_name"

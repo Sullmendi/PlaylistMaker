@@ -1,28 +1,44 @@
 package com.practicum.playlistmarket2.mediateka.data.impl
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.os.Environment
 import com.practicum.playlistmarket2.domain.models.Playlist
 import com.practicum.playlistmarket2.domain.models.Track
 import com.practicum.playlistmarket2.mediateka.data.AppDatabase
 import com.practicum.playlistmarket2.mediateka.data.converters.PlaylistDbConverter
 import com.practicum.playlistmarket2.mediateka.data.converters.PlaylistTrackDbConverter
+import com.practicum.playlistmarket2.mediateka.data.db.dao.PlaylistDao
+import com.practicum.playlistmarket2.mediateka.data.db.dao.PlaylistTrackDao
 import com.practicum.playlistmarket2.mediateka.domain.api.TrackAddedState
 import com.practicum.playlistmarket2.mediateka.domain.db.PlaylistRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileOutputStream
+import java.util.UUID
 
 class PlaylistRepositoryImpl(
-    private val appDatabase: AppDatabase, private val converter: PlaylistDbConverter, private val trackConverter: PlaylistTrackDbConverter
+    private val playlistDao: PlaylistDao,
+    private val playlistTrackDao: PlaylistTrackDao,
+    private val converter: PlaylistDbConverter,
+    private val trackConverter: PlaylistTrackDbConverter,
+    private val context: Context
 ): PlaylistRepository {
     override suspend fun insertPlaylist(playlist: Playlist) {
-        appDatabase.playlistDao().insertPlaylist(converter.map(playlist))
+        playlistDao.insertPlaylist(converter.map(playlist))
     }
 
     override suspend fun updatePlaylist(playlist: Playlist) {
-        appDatabase.playlistDao().updatePlaylist(converter.map(playlist))
+        playlistDao.updatePlaylist(converter.map(playlist))
     }
 
     override fun getAllPlaylists(): Flow<List<Playlist>> {
-        return appDatabase.playlistDao().getAllPlaylists().map{ entities ->
+        return playlistDao.getAllPlaylists().map{ entities ->
             entities.map{converter.map(it)}
         }
     }
@@ -41,11 +57,34 @@ class PlaylistRepositoryImpl(
             tracksCount = playlist.tracksCount + 1
         )
 
-        appDatabase.playlistDao().updatePlaylist(converter.map(updatedPlaylist))
+        playlistDao.updatePlaylist(converter.map(updatedPlaylist))
 
-        appDatabase.playlistTrackDao().insertTrack(trackConverter.map(track))
+        playlistTrackDao.insertTrack(trackConverter.map(track))
 
         return TrackAddedState.Success(updatedPlaylist)
+    }
+
+    override suspend fun saveImageToPrivateStorage(uri: Uri): String = withContext(Dispatchers.IO) {
+        val filePath = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "myalbum")
+
+        if (!filePath.exists()) {
+            filePath.mkdirs()
+        }
+
+        val uniqueFileName = "cover_${UUID.randomUUID()}.jpg"
+        val file = File(filePath, uniqueFileName)
+
+        val inputStream = context.contentResolver.openInputStream(uri)
+        val outputStream = FileOutputStream(file)
+
+        BitmapFactory
+            .decodeStream(inputStream)
+            .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
+
+        inputStream?.close()
+        outputStream.close()
+
+        return@withContext file.absolutePath
     }
 
 }

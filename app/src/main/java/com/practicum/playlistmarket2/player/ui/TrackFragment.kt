@@ -64,7 +64,6 @@ class TrackFragment: Fragment() {
 
         playlistAdapter = BottomSheetAdapter(emptyList()) {playlist ->
                 viewModel.addTrackToPlaylist(savedTrack, playlist)
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             }
 
         binding.recyclerViewPlaylist.adapter = playlistAdapter
@@ -72,7 +71,6 @@ class TrackFragment: Fragment() {
         viewModel.observePlaylistState().observe(viewLifecycleOwner){ newPlaylists ->
             playlistAdapter = BottomSheetAdapter(newPlaylists) { playlist ->
                 viewModel.addTrackToPlaylist(savedTrack, playlist)
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             }
             binding.recyclerViewPlaylist.adapter = playlistAdapter
 
@@ -108,6 +106,7 @@ class TrackFragment: Fragment() {
                 }
                 is TrackAddedState.Success -> {
                     Toast.makeText(requireContext(), "Добавлено в плейлист "+state.playlist.playlistName, Toast.LENGTH_SHORT).show()
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 }
             }
         }

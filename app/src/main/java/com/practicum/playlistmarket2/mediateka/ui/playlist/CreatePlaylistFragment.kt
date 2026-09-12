@@ -63,7 +63,7 @@ class CreatePlaylistFragment: Fragment() {
         val pickMedia =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
-                    viewModel.saveImageToPrivateStorage(uri, requireContext())
+                    viewModel.saveImageToPrivateStorage(uri)
                 }
             }
 
@@ -74,11 +74,11 @@ class CreatePlaylistFragment: Fragment() {
                 Glide.with(this)
                     .load(imageFile)
                     .centerCrop()
-                    .placeholder(R.drawable.ic_placeholder_312)
+                    .placeholder(R.drawable.ic_add_photo_100)
                     .transform(RoundedCorners(dpToPx(8f)))
-                    .into(binding.playlistImage)
+                    .into(binding.insidePlaylistImage)
             } else {
-                binding.playlistImage.setImageResource(R.drawable.ic_placeholder_312)
+                binding.insidePlaylistImage.setImageResource(R.drawable.ic_add_photo_100)
             }
         }
 

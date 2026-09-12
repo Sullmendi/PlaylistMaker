@@ -13,6 +13,7 @@ import com.practicum.playlistmarket2.search.domain.api.SearchHistoryRepository
 import com.practicum.playlistmarket2.search.domain.api.TrackRepository
 import com.practicum.playlistmarket2.settings.data.impl.ThemeRepositoryImpl
 import com.practicum.playlistmarket2.settings.domain.api.ThemeRepository
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val repositoryModule = module {
@@ -40,6 +41,6 @@ val repositoryModule = module {
     }
 
     single<PlaylistRepository> {
-        PlaylistRepositoryImpl(get(), get(), get())
+        PlaylistRepositoryImpl(get(), get(), get(), get(), androidContext())
     }
 }

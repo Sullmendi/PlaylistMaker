@@ -37,7 +37,7 @@ class TrackViewModel(private val track: Track, private val mediaPlayer: MediaPla
     init{
         prepareMediaPlayer()
         viewModelScope.launch {
-            favoriteTrackInteractor.favoriteTracks().onEach { tracks ->
+            favoriteTrackInteractor.favoriteTracks().collect { tracks ->
                 val isFavorite = tracks.any { it.trackId == track.trackId }
                 trackLiveData.postValue(track.copy(isFavorite = isFavorite))
         }}

@@ -45,30 +45,10 @@ class CreatePlaylistViewModel (private val playlistInteractor: PlaylistInteracto
         return change
     }
 
-    fun saveImageToPrivateStorage(uri: Uri, context: Context) {
+    fun saveImageToPrivateStorage(uri: Uri) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val filePath = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "myalbum")
-
-                if (!filePath.exists()) {
-                    filePath.mkdirs()
-                }
-
-                val uniqueFileName = "cover_${UUID.randomUUID()}.jpg"
-                val file = File(filePath, uniqueFileName)
-
-                val inputStream = context.contentResolver.openInputStream(uri)
-                val outputStream = FileOutputStream(file)
-
-                BitmapFactory
-                    .decodeStream(inputStream)
-                    .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
-
-                inputStream?.close()
-                outputStream.close()
-
-                playlistImageLiveData.postValue(file.absolutePath)
-            }
+            val imagePath = playlistInteractor.saveImageToPrivateStorage(uri)
+            playlistImageLiveData.value = imagePath
         }
     }
 
