@@ -2,6 +2,7 @@ package com.practicum.playlistmarket2
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
+import com.markodevcic.peko.PermissionRequester
 import com.practicum.playlistmarket2.di.dataModule
 import com.practicum.playlistmarket2.di.interactorModule
 import com.practicum.playlistmarket2.di.repositoryModule
@@ -22,7 +23,7 @@ class App: Application(), KoinComponent{
             androidContext(this@App)
             modules(dataModule, repositoryModule, interactorModule, viewModelModule)
         }
-
+        PermissionRequester.initialize(applicationContext)
 
         switchTheme(themeInteractor.getTheme())
 

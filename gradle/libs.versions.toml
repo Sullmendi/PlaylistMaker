@@ -21,6 +21,7 @@ navigation-fragment-ktx = "2.10.0"
 navigation-ui-ktx = "2.10.0"
 kotlinx-coroutines-android = "1.11.0"
 room-runtime = "2.8.4"
+peko = "3.0.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -46,6 +47,7 @@ kotlinx-coroutines-android = {group="org.jetbrains.kotlinx", name="kotlinx-corou
 room-runtime = {group="androidx.room", name="room-runtime", version.ref="room-runtime"}
 room-ktx = {group="androidx.room", name="room-ktx", version.ref="room-runtime"}
 room-compiler = {group="androidx.room", name="room-compiler", version.ref="room-runtime"}
+peko = { group = "com.markodevcic", name = "peko", version.ref = "peko" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 

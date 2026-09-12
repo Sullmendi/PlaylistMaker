@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://tools.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="?attr/colorPrimary"
     android:id="@+id/track_fragment"
@@ -269,3 +274,58 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
+
+    <View
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99000000"
+    android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/standard_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bottom_sheet_shape"
+        android:orientation="vertical"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="505dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <View
+        style="@style/ViewBottomSheet"
+        android:layout_width="50dp"
+        android:layout_height="@dimen/distance_eight"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/distance_eight" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            style="@style/placeboText"
+            android:gravity="center"
+            android:text="@string/add_to_playlist"
+            android:layout_marginTop="@dimen/distance_twelve"/>
+
+        <Button
+            android:id="@+id/new_playlist_button"
+            style="@style/refreshButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="91dp"
+            android:minHeight="36dp"
+            android:text="@string/create_new_playlist"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/distance_sixteen"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewPlaylist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="24dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

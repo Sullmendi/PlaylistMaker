@@ -73,7 +73,7 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/text_twenty_two</item>
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="fontFamily">@font/ys_display_medium</item>
     </style>
     
     <style name="trackWithNameAndTime">
@@ -132,6 +132,30 @@
         <item name="android:textSize">@dimen/text_fourteen</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>
+    </style>
+
+    <style name="EditTextPlaylist">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/text_sixteen</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">@drawable/edit_text_playlist</item>
+        <item name="android:textColorHint">@color/black</item>
+        <item name="cursorColor">@color/blue</item>
+    </style>
+
+    <style name="PlaylistIconText">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="android:layout_height">@dimen/distance_sixteen</item>
+    </style>
+
+    <style name="ViewBottomSheet">
+        <item name="android:background">@drawable/view_bottom_sheet</item>
     </style>
 
 </resources>
