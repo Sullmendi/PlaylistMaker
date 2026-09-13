@@ -26,8 +26,23 @@
     <string name="track_country">Country</string>
     <string name="media_Keeping">Media library</string>
     <string name="empty_media_tracks">Your media library is empty</string>
-    <string name="empty_madia_playlists">You haven\'t created any playlists</string>
+    <string name="empty_media_playlists">You haven\'t created any playlists</string>
     <string name="favorite_tracks">Favorite tracks</string>
     <string name="playlist">Playlists</string>
     <string name="create_new_playlist">New playlist</string>
+    <string name="playlist_name">Name*</string>
+    <string name="playlist_description">Description</string>
+    <string name="create_playlist">Create</string>
+    <string name="finish_create_title">Finish creating the playlist?</string>
+    <string name="finish_create_message">All unsaved data will be lost</string>
+    <string name="finish_text">Finish</string>
+    <string name="finish_cancel">Cancel</string>
+    <string name="rationale_permission">Permission to read files is required to select a playlist cover</string>
+    <string name="add_to_playlist">Add to playlist</string>
+    <plurals name="tracks_count">
+        <item quantity="one">%d track</item>
+        <item quantity="few">%d tracks</item>
+        <item quantity="many">%d tracks</item>
+        <item quantity="other">%d track</item>
+    </plurals>
 </resources>

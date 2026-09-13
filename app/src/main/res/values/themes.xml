@@ -5,6 +5,16 @@
         <item name="colorControlActivated">@color/green_light</item>
         <item name="colorSwitchThumbNormal">@color/white</item>
         <item name="android:colorBackground">@color/white</item>
+        <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialogTheme</item>
     </style>
-    <style name="Theme.PlaylistMarket2" parent="Base.Theme.PlaylistMarket2" />
+    <style name="Theme.PlaylistMarket2" parent="Base.Theme.PlaylistMarket2"/>
+
+    <style name="CustomBottomSheetDialogTheme" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+    </style>
+
+    <style name="CustomBottomSheetStyle" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="background">@drawable/bottom_sheet_shape</item>
+        <item name="backgroundTint">@null</item>
+    </style>
 </resources>

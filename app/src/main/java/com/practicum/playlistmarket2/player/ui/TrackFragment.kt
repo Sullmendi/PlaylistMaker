@@ -7,14 +7,20 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.practicum.playlistmarket2.R
 import com.practicum.playlistmarket2.databinding.FragmentTrackBinding
 import com.practicum.playlistmarket2.domain.models.Track
+import com.practicum.playlistmarket2.mediateka.domain.api.TrackAddedState
+import com.practicum.playlistmarket2.mediateka.ui.playlist.bottom_sheet.BottomSheetAdapter
 import com.practicum.playlistmarket2.player.domain.PlayerState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -24,6 +30,8 @@ import kotlin.getValue
 
 class TrackFragment: Fragment() {
     private var _binding: FragmentTrackBinding? = null
+
+    private lateinit var playlistAdapter: BottomSheetAdapter
 
     private val binding get() = _binding!!
     private val savedTrack: Track by lazy{
@@ -48,6 +56,60 @@ class TrackFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val bottomSheetContainer = view.findViewById<LinearLayout>(R.id.standard_bottom_sheet)
+        val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer).apply {
+            state = BottomSheetBehavior.STATE_HIDDEN
+        }
+
+        playlistAdapter = BottomSheetAdapter(emptyList()) {playlist ->
+                viewModel.addTrackToPlaylist(savedTrack, playlist)
+            }
+
+        binding.recyclerViewPlaylist.adapter = playlistAdapter
+
+        viewModel.observePlaylistState().observe(viewLifecycleOwner){ newPlaylists ->
+            playlistAdapter = BottomSheetAdapter(newPlaylists) { playlist ->
+                viewModel.addTrackToPlaylist(savedTrack, playlist)
+            }
+            binding.recyclerViewPlaylist.adapter = playlistAdapter
+
+        }
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+
+                when (newState) {
+                    BottomSheetBehavior.STATE_HIDDEN -> {
+                        binding.overlay.visibility = View.GONE
+                    }
+                    else -> {
+                        viewModel.loadActuallyPlaylist()
+                        binding.overlay.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                binding.overlay.alpha = slideOffset.coerceIn(1f, 2f)
+            }
+        })
+
+        binding.overlay.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
+
+        viewModel.observeTrackState().observe(viewLifecycleOwner){state ->
+            when(state) {
+                is TrackAddedState.AlreadyAdd -> {
+                    Toast.makeText(requireContext(), "Трек уже добавлен в плейлист "+state.playlist.playlistName, Toast.LENGTH_SHORT).show()
+                }
+                is TrackAddedState.Success -> {
+                    Toast.makeText(requireContext(), "Добавлено в плейлист "+state.playlist.playlistName, Toast.LENGTH_SHORT).show()
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                }
+            }
+        }
 
             viewModel.observePLayerState().observe(viewLifecycleOwner){
                 binding.buttonPlay.isEnabled = it.isPlayButtonEnabled
@@ -86,11 +148,19 @@ class TrackFragment: Fragment() {
             }
 
             binding.buttonArrow.setOnClickListener {
-                findNavController().popBackStack(R.id.searchFragment, false)
+                findNavController().popBackStack()
             }
 
         binding.buttonLike.setOnClickListener {
             viewModel.onFavoriteClicked()
+        }
+
+        binding.buttonAddPlaylist.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+
+        binding.newPlaylistButton.setOnClickListener {
+            findNavController().navigate(R.id.action_trackFragment_to_createPlaylistFragment)
         }
 
         }

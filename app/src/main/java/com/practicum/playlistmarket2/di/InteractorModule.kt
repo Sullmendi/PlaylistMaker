@@ -1,7 +1,9 @@
 package com.practicum.playlistmarket2.di
 
 import com.practicum.playlistmarket2.mediateka.domain.db.FavoriteTrackInteractor
+import com.practicum.playlistmarket2.mediateka.domain.db.PlaylistInteractor
 import com.practicum.playlistmarket2.mediateka.domain.impl.FavoriteTrackInteractorImpl
+import com.practicum.playlistmarket2.mediateka.domain.impl.PlaylistInteractorImpl
 import com.practicum.playlistmarket2.search.domain.api.SearchHistoryInteractor
 import com.practicum.playlistmarket2.search.domain.api.TrackInteractor
 import com.practicum.playlistmarket2.search.domain.impl.SearchHistoryInteractorImpl
@@ -26,5 +28,9 @@ val interactorModule = module{
 
     single<FavoriteTrackInteractor>{
         FavoriteTrackInteractorImpl(get())
+    }
+
+    single<PlaylistInteractor>{
+        PlaylistInteractorImpl(get())
     }
 }

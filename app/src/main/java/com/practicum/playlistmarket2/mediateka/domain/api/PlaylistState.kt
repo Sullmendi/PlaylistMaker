@@ -1,5 +1,8 @@
 package com.practicum.playlistmarket2.mediateka.domain.api
 
-interface PlaylistState {
+import com.practicum.playlistmarket2.domain.models.Playlist
+
+sealed interface PlaylistState {
     object Empty: PlaylistState
+    data class Content(val playlistList: List<Playlist>): PlaylistState
 }

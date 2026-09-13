@@ -5,8 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.practicum.playlistmarket2.domain.models.Playlist
 import com.practicum.playlistmarket2.domain.models.Track
+import com.practicum.playlistmarket2.mediateka.domain.api.TrackAddedState
 import com.practicum.playlistmarket2.mediateka.domain.db.FavoriteTrackInteractor
+import com.practicum.playlistmarket2.mediateka.domain.db.PlaylistInteractor
 import com.practicum.playlistmarket2.player.domain.PlayerState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -16,7 +19,8 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class TrackViewModel(private val track: Track, private val mediaPlayer: MediaPlayer, private val favoriteTrackInteractor: FavoriteTrackInteractor): ViewModel() {
+class TrackViewModel(private val track: Track, private val mediaPlayer: MediaPlayer, private val favoriteTrackInteractor: FavoriteTrackInteractor, private val playlistInteractor: PlaylistInteractor): ViewModel() {
+    var listPlaylists = mutableListOf<Playlist>()
     private var timerJob: Job? = null
     private val playerStateLiveData = MutableLiveData<PlayerState>(PlayerState.Default())
     fun observePLayerState(): LiveData<PlayerState> = playerStateLiveData
@@ -24,14 +28,33 @@ class TrackViewModel(private val track: Track, private val mediaPlayer: MediaPla
     private val trackLiveData = MutableLiveData(track)
     fun observeTrack(): LiveData<Track> = trackLiveData
 
+    private val trackAddedLiveData = MutableLiveData<TrackAddedState>()
+    fun observeTrackState(): LiveData<TrackAddedState> = trackAddedLiveData
+
+    private val playlistStateLiveData = MutableLiveData<List<Playlist>>()
+    fun observePlaylistState(): LiveData<List<Playlist>> = playlistStateLiveData
+
     init{
         prepareMediaPlayer()
+        viewModelScope.launch {
+            favoriteTrackInteractor.favoriteTracks().collect { tracks ->
+                val isFavorite = tracks.any { it.trackId == track.trackId }
+                trackLiveData.postValue(track.copy(isFavorite = isFavorite))
+        }}
 
-        favoriteTrackInteractor.favoriteTracks().onEach { tracks ->
-            val isFavorite = tracks.any { it.trackId == track.trackId }
-            trackLiveData.postValue(track.copy(isFavorite = isFavorite))
+        viewModelScope.launch {
+            playlistInteractor.getPlaylists().collect { playlists ->
+                playlistStateLiveData.postValue(playlists)
         }
-            .launchIn(viewModelScope)
+        }
+    }
+
+    fun loadActuallyPlaylist(){
+        viewModelScope.launch {
+            playlistInteractor.getPlaylists().collect { playlists ->
+                playlistStateLiveData.postValue(playlists)
+            }
+        }
     }
 
     private fun prepareMediaPlayer(){
@@ -95,6 +118,18 @@ class TrackViewModel(private val track: Track, private val mediaPlayer: MediaPla
             }
             track.isFavorite = !track.isFavorite
             trackLiveData.postValue(track)
+        }
+    }
+
+
+    fun addTrackToPlaylist(track: Track, playlist: Playlist){
+        viewModelScope.launch {
+            if(playlist.trackIds.contains(track.trackId)){
+                trackAddedLiveData.postValue(TrackAddedState.AlreadyAdd(playlist))
+            } else{
+                playlistInteractor.addTrackToPlaylist(track,playlist)
+                trackAddedLiveData.postValue(TrackAddedState.Success(playlist))
+            }
         }
     }
 
