@@ -21,6 +21,7 @@
             />
 
         <TextView
+            android:id="@+id/create_title"
             android:layout_height="@dimen/distance_forty_eight"
             style="@style/startTextUpOnPage"
             android:layout_marginStart="@dimen/distance_twelve"
@@ -46,7 +47,7 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/distance_sixteen" />
 
-        <LinearLayout
+        <ImageView
             android:id="@+id/playlistImage"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -61,15 +62,18 @@
             android:cropToPadding="true"
             android:clipToPadding="true"
             android:gravity="center"
-            >
+            />
 
-            <ImageView
-                android:id="@+id/inside_playlist_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_add_photo_100"
-                />
-        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/inside_playlist_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_photo_100"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/playlistImage"
+            app:layout_constraintBottom_toBottomOf="@id/playlistImage"/>
 
         <EditText
             android:id="@+id/edit_text_name"

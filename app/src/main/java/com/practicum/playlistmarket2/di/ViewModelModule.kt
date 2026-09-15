@@ -2,7 +2,9 @@ package com.practicum.playlistmarket2.di
 
 import com.practicum.playlistmarket2.domain.models.Track
 import com.practicum.playlistmarket2.mediateka.ui.favorite_track.FavoriteViewModel
+import com.practicum.playlistmarket2.mediateka.ui.one_playlist.ChoosePlaylistViewModel
 import com.practicum.playlistmarket2.mediateka.ui.playlist.CreatePlaylistViewModel
+import com.practicum.playlistmarket2.mediateka.ui.one_playlist.EditPlaylistViewModel
 import com.practicum.playlistmarket2.mediateka.ui.playlist.PlaylistViewModel
 import com.practicum.playlistmarket2.player.ui.TrackViewModel
 import com.practicum.playlistmarket2.search.ui.SearchViewModel
@@ -34,4 +36,11 @@ val viewModelModule = module{
         CreatePlaylistViewModel(get())
     }
 
+    viewModel { (id: Long) ->
+        ChoosePlaylistViewModel(id, get())
+    }
+
+    viewModel { (id:Long) ->
+        EditPlaylistViewModel(id, get())
+    }
 }

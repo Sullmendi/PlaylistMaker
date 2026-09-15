@@ -1,30 +1,20 @@
 package com.practicum.playlistmarket2.mediateka.ui.playlist
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Environment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmarket2.domain.models.Playlist
 import com.practicum.playlistmarket2.mediateka.domain.db.PlaylistInteractor
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
-import java.io.File
-import java.io.FileOutputStream
-import java.util.UUID
 
-class CreatePlaylistViewModel (private val playlistInteractor: PlaylistInteractor) : ViewModel() {
+open class CreatePlaylistViewModel (protected val playlistInteractor: PlaylistInteractor) : ViewModel() {
 
 
     var playlistName: String = ""
-    private var playlistDescription: String = ""
-    private val playlistImageLiveData = MutableLiveData<String?>(null)
+    protected var playlistDescription: String = ""
+    protected val playlistImageLiveData = MutableLiveData<String?>(null)
     val playlistImageObserve: LiveData<String?> = playlistImageLiveData
 
     private val stateEnableButton = MutableLiveData<Boolean>(false)
@@ -35,11 +25,13 @@ class CreatePlaylistViewModel (private val playlistInteractor: PlaylistInteracto
         stateEnableButton.value = name.trim().isNotEmpty()
     }
 
-    fun makePlaylistDescription(description: String) {
-        playlistDescription = description
+    fun makePlaylistDescription(description: String?) {
+        if (description != null) {
+            playlistDescription = description
+        }
     }
 
-    fun isAnythingChange(): Boolean {
+    open fun isAnythingChange(): Boolean {
         val change: Boolean = playlistName.trim().isNotEmpty() || playlistDescription.trim()
             .isNotEmpty() || playlistImageLiveData.value != null
         return change
@@ -52,7 +44,7 @@ class CreatePlaylistViewModel (private val playlistInteractor: PlaylistInteracto
         }
     }
 
-    fun createPlaylist() {
+    open fun createPlaylist() {
         viewModelScope.launch{
             val newPlaylist = Playlist(
                 id = 0,
