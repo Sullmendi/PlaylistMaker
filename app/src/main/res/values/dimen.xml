@@ -12,6 +12,9 @@
     <dimen name="distance_fourteen">14dp</dimen>
     <dimen name="text_fourteen">14sp</dimen>
     <dimen name="distance_twenty_four">24dp</dimen>
+    <dimen name="text_twenty_four">24sp</dimen>
     <dimen name="distance_thirty">30dp</dimen>
     <dimen name="distance_seventeen">17dp</dimen>
+    <dimen name="text_eighteen">18sp</dimen>
+    <dimen name="bottom_sheet_height">266dp</dimen>
 </resources>

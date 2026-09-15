@@ -43,11 +43,28 @@
     <string name="finish_cancel">Отмена</string>
     <string name="rationale_permission">Разрешение на чтение файлов необходимо для выбора обложки плейлиста</string>
     <string name="add_to_playlist">Добавить в плейлист</string>
-
+    <string name="delete_track">Хотите удалить трек?</string>
+    <string name="answer_nope">НЕТ</string>
+    <string name="answer_yes">ДА</string>
+    <string name="empty_playlist">В этом плейлисте нет списка треков, которым можно поделиться</string>
+    <string name="share_bottom">Поделиться</string>
+    <string name="edit_info_bottom">Редактировать информацию</string>
+    <string name="delete_playlist_bottom">Удалить плейлист</string>
+    <string name="delete">Удалить</string>
+    <string name="delete_playlist">Вы уверены, что хотите удалить этот плейлист?</string>
+    <string name="edit_title">Редактировать</string>
+    <string name="save_button">Сохранить</string>
+    <string name="no_tracks">В плейлисте нет добавленных треков</string>
     <plurals name="tracks_count">
         <item quantity="one">%d трек</item>
         <item quantity="few">%d трека</item>
         <item quantity="many">%d треков</item>
         <item quantity="other">%d треков</item>
+    </plurals>
+    <plurals name="tracks_time">
+        <item quantity="one">%d минута</item>
+        <item quantity="few">%d минуты</item>
+        <item quantity="many">%d минут</item>
+        <item quantity="other">%d минут</item>
     </plurals>
 </resources>

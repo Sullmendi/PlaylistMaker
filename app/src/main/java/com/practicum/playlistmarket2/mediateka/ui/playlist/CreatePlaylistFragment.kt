@@ -1,6 +1,7 @@
 package com.practicum.playlistmarket2.mediateka.ui.playlist
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -30,14 +31,14 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 
-class CreatePlaylistFragment: Fragment() {
+open class CreatePlaylistFragment: Fragment() {
     val requester = PermissionRequester.instance()
     lateinit var confirmDialog: MaterialAlertDialogBuilder
 
     private var _binding: FragmentCreatePlaylistBinding? = null
-    private val binding get() = _binding!!
+    val binding get() = _binding!!
 
-    private val viewModel: CreatePlaylistViewModel by viewModel()
+    open val viewModel: CreatePlaylistViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +58,7 @@ class CreatePlaylistFragment: Fragment() {
             .setNeutralButton(getString(com.practicum.playlistmarket2.R.string.finish_cancel)) { dialog, which ->
                 dialog.dismiss()
             }.setNegativeButton(getString(com.practicum.playlistmarket2.R.string.finish_text)) { dialog, which ->
+                dialog.dismiss()
                 findNavController().popBackStack()
             }
 
@@ -69,15 +71,16 @@ class CreatePlaylistFragment: Fragment() {
 
         viewModel.playlistImageObserve.observe(viewLifecycleOwner) { imagePath ->
             if (!imagePath.isNullOrEmpty()) {
+                binding.insidePlaylistImage.visibility = View.GONE
                 val imageFile = File(imagePath)
 
                 Glide.with(this)
                     .load(imageFile)
-                    .centerCrop()
+                    .transform(CenterCrop(), RoundedCorners(dpToPx(8f, requireContext())))
                     .placeholder(R.drawable.ic_add_photo_100)
-                    .transform(RoundedCorners(dpToPx(8f)))
-                    .into(binding.insidePlaylistImage)
+                    .into(binding.playlistImage)
             } else {
+                binding.insidePlaylistImage.visibility = View.VISIBLE
                 binding.insidePlaylistImage.setImageResource(R.drawable.ic_add_photo_100)
             }
         }
@@ -156,12 +159,11 @@ class CreatePlaylistFragment: Fragment() {
 
     }
 
-    private fun dpToPx(dp: Float): Int {
+    open fun dpToPx(dp: Float, context: Context): Int {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             dp,
-            requireContext().resources.displayMetrics
-        ).toInt()
+            context.resources.displayMetrics).toInt()
     }
     fun showFinishMessage(){
         confirmDialog.show()
