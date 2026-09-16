@@ -24,9 +24,11 @@ class EditPlaylistFragment: CreatePlaylistFragment() {
     override val viewModel: EditPlaylistViewModel by viewModel{
         parametersOf(arguments?.getLong(ITEM_PLAYLIST_ID) ?:0)
     }
+    private var isLoaded = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        isLoaded = false
 
         binding.editTextName.doOnTextChanged { text, _, _, _ ->
             viewModel.makePlaylistName(text.toString())
@@ -63,4 +65,8 @@ class EditPlaylistFragment: CreatePlaylistFragment() {
 
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        isLoaded = false
+    }
 }

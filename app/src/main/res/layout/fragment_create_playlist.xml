@@ -22,10 +22,11 @@
 
         <TextView
             android:id="@+id/create_title"
-            android:layout_height="@dimen/distance_forty_eight"
             style="@style/startTextUpOnPage"
+            android:layout_height="@dimen/distance_forty_eight"
             android:layout_marginStart="@dimen/distance_twelve"
-            android:text="@string/create_new_playlist" />
+            android:text="@string/create_new_playlist"
+            android:gravity="center_vertical"/>
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

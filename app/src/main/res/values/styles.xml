@@ -164,4 +164,9 @@
         <item name="android:background">@drawable/view_bottom_sheet</item>
     </style>
 
+    <style name="CustomMaterialDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <!-- Цвет текста на кнопках (Positive, Negative) -->
+        <item name="colorPrimary">@color/blue</item>
+    </style>
+
 </resources>

@@ -88,7 +88,13 @@ class PlaylistRepositoryImpl(
         track: Track,
         playlist: Playlist
     ): Playlist {
-        val updateIdInPlaylist = playlist.trackIds.toMutableList().apply { remove(track.trackId) }
+        val updateIdInPlaylist = playlist.trackIds.toMutableList()
+
+        val isTrackDeleted = updateIdInPlaylist.remove(track.trackId)
+
+        if(!isTrackDeleted){
+            return playlist
+        }
 
         val updatedPlaylist = playlist.copy(
             trackIds = updateIdInPlaylist,

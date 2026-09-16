@@ -17,10 +17,16 @@ class EditPlaylistViewModel(private val id: Long,
         loadPlaylist()
     }
 
+    private val playlistLiveData = MutableLiveData<Playlist>()
+    fun observePlaylist(): LiveData<Playlist> = playlistLiveData
+    private var firstPlaylist: Playlist? = null
+
+
     fun loadPlaylist(){
         viewModelScope.launch {
             val playlist = playlistInteractor.getPlaylistById(id)
             playlist?.let {
+                firstPlaylist = it
                 playlistLiveData.postValue(it)
                 makePlaylistName(it.playlistName)
                 makePlaylistDescription(it.playlistDescription)
@@ -29,27 +35,29 @@ class EditPlaylistViewModel(private val id: Long,
         }
     }
 
-    private val playlistLiveData = MutableLiveData<Playlist>()
-    fun observePlaylist(): LiveData<Playlist> = playlistLiveData
-
     override fun isAnythingChange(): Boolean {
-        return false
+        val original = firstPlaylist ?: return false
+        return playlistName != original.playlistName ||
+                playlistDescription != original.playlistDescription ||
+                playlistImageLiveData.value != original.playlistImagePath
     }
 
     override fun createPlaylist() {
         viewModelScope.launch {
-            val playlist = playlistInteractor.getPlaylistById(id)
+            val original = firstPlaylist
 
             val updatedPlaylist = Playlist(
                 id = id,
                 playlistName = this@EditPlaylistViewModel.playlistName,
                 playlistDescription = this@EditPlaylistViewModel.playlistDescription,
-                playlistImagePath = playlistImageLiveData.value,
-                trackIds = playlist?.trackIds ?: emptyList(),
-                tracksCount = playlist?.tracksCount ?: 0
+                playlistImagePath = this@EditPlaylistViewModel.playlistImageLiveData.value,
+                trackIds = original?.trackIds ?: emptyList(),
+                tracksCount = original?.tracksCount ?: 0
             )
 
             playlistInteractor.updatePlaylist(updatedPlaylist)
+            firstPlaylist = updatedPlaylist
+            playlistLiveData.postValue(updatedPlaylist)
         }
     }
 }

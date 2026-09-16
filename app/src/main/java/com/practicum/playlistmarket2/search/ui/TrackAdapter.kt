@@ -20,7 +20,9 @@ class TrackAdapter (
         val viewHolder = TrackViewHolder(view)
         viewHolder.itemView.setOnClickListener {
             val position = viewHolder.bindingAdapterPosition
+            if(position != RecyclerView.NO_POSITION){
             clickOnTrack(trackList[position])
+            }
         }
 
             longClickTrack?.let { listener ->

@@ -19,7 +19,9 @@ class PlaylistAdapter(
         val viewHolder = PlaylistViewHolder(view)
         viewHolder.itemView.setOnClickListener {
             val position = viewHolder.bindingAdapterPosition
+            if(position != RecyclerView.NO_POSITION){
             clickOnPlaylist(playlistList[position])
+            }
         }
 
 

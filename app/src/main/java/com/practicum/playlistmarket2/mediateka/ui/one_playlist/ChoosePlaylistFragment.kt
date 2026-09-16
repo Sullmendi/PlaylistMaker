@@ -27,8 +27,6 @@ import com.practicum.playlistmarket2.search.ui.TrackAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class ChoosePlaylistFragment: Fragment() {
 
@@ -40,7 +38,8 @@ class ChoosePlaylistFragment: Fragment() {
     }
 
     private lateinit var trackAdapter: TrackAdapter
-    lateinit var confirmDialog: MaterialAlertDialogBuilder
+    lateinit var confirmDialogDeleteTrack: MaterialAlertDialogBuilder
+    lateinit var confirmDialogDeletePlaylist: MaterialAlertDialogBuilder
 
     var trackCount: Int = 0
 
@@ -63,7 +62,7 @@ class ChoosePlaylistFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        confirmDialog = MaterialAlertDialogBuilder(requireContext())
+        confirmDialogDeletePlaylist = MaterialAlertDialogBuilder(requireContext(), R.style.CustomMaterialDialog)
             .setTitle(getString(com.practicum.playlistmarket2.R.string.delete_playlist_bottom))
             .setMessage(getString(com.practicum.playlistmarket2.R.string.delete_playlist))
             .setNeutralButton(getString(com.practicum.playlistmarket2.R.string.finish_cancel)) { dialog, which ->
@@ -107,7 +106,7 @@ class ChoosePlaylistFragment: Fragment() {
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                _binding?.overlay?.alpha = slideOffset.coerceIn(1f, 2f)
+                _binding?.overlay?.alpha = slideOffset.coerceIn(0.7f, 1f)
             }
         })
 
@@ -145,7 +144,7 @@ class ChoosePlaylistFragment: Fragment() {
 
         binding.deletePlaylist.setOnClickListener {
             bottomSheetBehaviorInformation.state = BottomSheetBehavior.STATE_HIDDEN
-            confirmDialog.show()
+            confirmDialogDeletePlaylist.show()
         }
 
         binding.overlay.setOnClickListener {
@@ -269,7 +268,7 @@ class ChoosePlaylistFragment: Fragment() {
     }
 
     fun showDeleteDialog(track: Track){
-        confirmDialog = MaterialAlertDialogBuilder(requireContext())
+        confirmDialogDeleteTrack = MaterialAlertDialogBuilder(requireContext(), R.style.CustomMaterialDialog)
             .setTitle(getString(R.string.delete_track))
             .setNeutralButton(getString(R.string.answer_nope)) { dialog, which ->
                 dialog.dismiss()
@@ -277,7 +276,7 @@ class ChoosePlaylistFragment: Fragment() {
                 viewModel.deleteTrack(track)
                 dialog.dismiss()
             }
-        confirmDialog.show()
+        confirmDialogDeleteTrack.show()
     }
 
     fun dpToPx(dp: Float, context: Context): Int {
@@ -292,7 +291,7 @@ class ChoosePlaylistFragment: Fragment() {
         shareIntent.action = Intent.ACTION_SEND
         shareIntent.type = "text/plain"
         shareIntent.putExtra(Intent.EXTRA_TEXT, message)
-        val chooseApp = Intent.createChooser(shareIntent,"Share APK")
+        val chooseApp = Intent.createChooser(shareIntent,getString(R.string.share_app))
         startActivity(chooseApp)
     }
 

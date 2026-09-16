@@ -40,7 +40,7 @@ open class CreatePlaylistViewModel (protected val playlistInteractor: PlaylistIn
     fun saveImageToPrivateStorage(uri: Uri) {
         viewModelScope.launch {
             val imagePath = playlistInteractor.saveImageToPrivateStorage(uri)
-            playlistImageLiveData.value = imagePath
+            playlistImageLiveData.postValue(imagePath)
         }
     }
 

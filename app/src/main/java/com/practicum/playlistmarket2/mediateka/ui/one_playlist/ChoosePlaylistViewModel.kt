@@ -1,18 +1,15 @@
 package com.practicum.playlistmarket2.mediateka.ui.one_playlist
 
-import android.content.res.Resources
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.practicum.playlistmarket2.R
 import com.practicum.playlistmarket2.domain.models.Playlist
 import com.practicum.playlistmarket2.domain.models.Track
 import com.practicum.playlistmarket2.mediateka.domain.db.PlaylistInteractor
 import com.practicum.playlistmarket2.search.ui.SearchFragment.Companion.CLICK_DEBOUNCE_DELAY
 import com.practicum.playlistmarket2.utils.SingleLiveEvent
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat

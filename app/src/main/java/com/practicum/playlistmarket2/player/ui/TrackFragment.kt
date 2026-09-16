@@ -88,7 +88,7 @@ class TrackFragment: Fragment() {
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                binding.overlay.alpha = slideOffset.coerceIn(1f, 2f)
+                binding.overlay.alpha = slideOffset.coerceIn(0.7f, 1f)
             }
         })
 
