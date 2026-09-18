@@ -69,12 +69,9 @@ class TrackFragment: Fragment() {
         binding.recyclerViewPlaylist.adapter = playlistAdapter
 
         viewModel.observePlaylistState().observe(viewLifecycleOwner){ newPlaylists ->
-            playlistAdapter = BottomSheetAdapter(newPlaylists) { playlist ->
-                viewModel.addTrackToPlaylist(savedTrack, playlist)
-            }
-            binding.recyclerViewPlaylist.adapter = playlistAdapter
-
+            playlistAdapter.updateData(newPlaylists)
         }
+
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -91,7 +88,7 @@ class TrackFragment: Fragment() {
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                binding.overlay.alpha = slideOffset.coerceIn(1f, 2f)
+                binding.overlay.alpha = slideOffset.coerceIn(0.7f, 1f)
             }
         })
 

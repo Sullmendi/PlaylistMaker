@@ -9,7 +9,8 @@ import com.practicum.playlistmarket2.player.ui.TrackViewHolder
 
 class TrackAdapter (
     var trackList: List<Track>,
-    private val clickOnTrack: (Track) -> Unit
+    private val clickOnTrack: (Track) -> Unit,
+    private val longClickTrack: ((Track) -> Unit)? = null
 ) : RecyclerView.Adapter<TrackViewHolder> () {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -19,9 +20,22 @@ class TrackAdapter (
         val viewHolder = TrackViewHolder(view)
         viewHolder.itemView.setOnClickListener {
             val position = viewHolder.bindingAdapterPosition
+            if(position != RecyclerView.NO_POSITION){
             clickOnTrack(trackList[position])
+            }
         }
 
+            longClickTrack?.let { listener ->
+                viewHolder.itemView.setOnLongClickListener {
+                    val currentPosition = viewHolder.bindingAdapterPosition
+                    if (currentPosition != RecyclerView.NO_POSITION) {
+                        listener(trackList[currentPosition])
+                    }
+                    true
+                }
+            } ?: run {
+                viewHolder.itemView.setOnLongClickListener(null)
+            }
 
 
         return viewHolder
@@ -38,4 +52,8 @@ class TrackAdapter (
         return trackList.size
     }
 
+    fun updateData(newTracks: List<Track>) {
+        this.trackList = newTracks
+        notifyDataSetChanged()
+    }
 }

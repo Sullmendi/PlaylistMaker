@@ -16,8 +16,6 @@ import kotlinx.coroutines.launch
 class SearchViewModel(private val trackInteractor: TrackInteractor, private val searchHistoryInteractor: SearchHistoryInteractor): ViewModel() {
     var savedPersonText: String = ""
     private var lastSearchText: String = ""
-    var trackList = mutableListOf<Track>()
-    var historyTrackList = mutableListOf<Track>()
     private var isClickAllowed = true
     private var searchJob: Job? = null
     private val stateLiveData = MutableLiveData<SearchState>()

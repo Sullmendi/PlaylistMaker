@@ -10,10 +10,14 @@ import com.practicum.playlistmarket2.mediateka.data.db.dao.PlaylistDao
 import com.practicum.playlistmarket2.mediateka.data.db.dao.PlaylistTrackDao
 import com.practicum.playlistmarket2.mediateka.data.db.entity.TracksEntity
 import com.practicum.playlistmarket2.mediateka.data.db.dao.TracksDao
+import com.practicum.playlistmarket2.mediateka.data.db.entity.PlaylistCrossTrack
 import com.practicum.playlistmarket2.mediateka.data.db.entity.PlaylistEntity
 import com.practicum.playlistmarket2.mediateka.data.db.entity.PlaylistTrackEntity
 
-@Database(version = 3, entities = [TracksEntity::class, PlaylistEntity::class, PlaylistTrackEntity::class])
+@Database(version = 4, entities = [TracksEntity::class,
+    PlaylistEntity::class,
+    PlaylistTrackEntity::class,
+    PlaylistCrossTrack::class])
 @TypeConverters(PlaylistTrackIdDbConverter::class)
 abstract class AppDatabase: RoomDatabase() {
 
@@ -53,5 +57,23 @@ val MIGRATION_2_3 = object : Migration(2, 3){
                 "                `createdAt` INTEGER NOT NULL,\n" +
                 "                PRIMARY KEY(`trackId`)" +
                 "            )")
+    }
+}
+
+val MIGRATION_3_4 = object : Migration(3, 4){
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS `playlist_cross_track` (\n" +
+        "        `id` INTEGER NOT NULL, \n" +
+        "        `trackId` TEXT NOT NULL, \n" +
+        "        PRIMARY KEY(`id`, `trackId`)"+
+        "        )")
+
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_playlist_cross_track_trackId` ON `playlist_cross_track` (`trackId`)")
+        db.execSQL("""
+            INSERT INTO playlist_cross_track (id, trackId)
+            SELECT p.id, value 
+            FROM playlist_table p, json_each(p.trackIdsJson)
+            WHERE json_valid(p.trackIdsJson) = 1
+        """)
     }
 }

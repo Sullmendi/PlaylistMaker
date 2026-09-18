@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_mediaFragment_to_createPlaylistFragment"
             app:destination="@id/createPlaylistFragment" />
+        <action
+            android:id="@+id/action_mediaFragment_to_choosePlaylistFragment"
+            app:destination="@id/choosePlaylistFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -55,4 +58,19 @@
         android:name="com.practicum.playlistmarket2.mediateka.ui.playlist.CreatePlaylistFragment"
         android:label="fragment_create_playlist"
         tools:layout="@layout/fragment_create_playlist" />
+    <fragment
+        android:id="@+id/choosePlaylistFragment"
+        android:name="com.practicum.playlistmarket2.mediateka.ui.one_playlist.ChoosePlaylistFragment"
+        android:label="ChoosePlaylistFragment" >
+        <action
+            android:id="@+id/action_choosePlaylistFragment_to_trackFragment"
+            app:destination="@id/trackFragment" />
+        <action
+            android:id="@+id/action_choosePlaylistFragment_to_editPlaylistFragment"
+            app:destination="@id/editPlaylistFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editPlaylistFragment"
+        android:name="com.practicum.playlistmarket2.mediateka.ui.one_playlist.EditPlaylistFragment"
+        android:label="EditPlaylistFragment" />
 </navigation>

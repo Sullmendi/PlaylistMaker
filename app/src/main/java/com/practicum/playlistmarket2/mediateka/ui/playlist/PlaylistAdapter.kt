@@ -5,14 +5,25 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmarket2.R
 import com.practicum.playlistmarket2.domain.models.Playlist
+import com.practicum.playlistmarket2.domain.models.Track
 
-class PlaylistAdapter(private val playlistList: List<Playlist>): RecyclerView.Adapter<PlaylistViewHolder> () {
+class PlaylistAdapter(
+    var playlistList: List<Playlist>,
+    private val clickOnPlaylist: (Playlist) -> Unit
+): RecyclerView.Adapter<PlaylistViewHolder> () {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): PlaylistViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.playlist_view, parent, false)
         val viewHolder = PlaylistViewHolder(view)
+        viewHolder.itemView.setOnClickListener {
+            val position = viewHolder.bindingAdapterPosition
+            if(position != RecyclerView.NO_POSITION){
+            clickOnPlaylist(playlistList[position])
+            }
+        }
+
 
         return viewHolder
     }
@@ -27,5 +38,11 @@ class PlaylistAdapter(private val playlistList: List<Playlist>): RecyclerView.Ad
     override fun getItemCount(): Int {
         return playlistList.size
     }
+
+    fun updateData(newPlaylists: List<Playlist>) {
+        this.playlistList = newPlaylists
+        notifyDataSetChanged()
+    }
+
 
 }

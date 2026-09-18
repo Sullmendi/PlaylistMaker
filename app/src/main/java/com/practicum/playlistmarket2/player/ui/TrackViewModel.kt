@@ -20,7 +20,6 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class TrackViewModel(private val track: Track, private val mediaPlayer: MediaPlayer, private val favoriteTrackInteractor: FavoriteTrackInteractor, private val playlistInteractor: PlaylistInteractor): ViewModel() {
-    var listPlaylists = mutableListOf<Playlist>()
     private var timerJob: Job? = null
     private val playerStateLiveData = MutableLiveData<PlayerState>(PlayerState.Default())
     fun observePLayerState(): LiveData<PlayerState> = playerStateLiveData

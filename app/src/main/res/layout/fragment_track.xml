@@ -295,7 +295,7 @@
         <View
         style="@style/ViewBottomSheet"
         android:layout_width="50dp"
-        android:layout_height="@dimen/distance_eight"
+        android:layout_height="4dp"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/distance_eight" />
 

@@ -11,6 +11,7 @@ import com.practicum.playlistmarket2.data.network.RetrofitNetworkClient
 import com.practicum.playlistmarket2.data.network.RetrofitNetworkClient.Companion.BASE_URL
 import com.practicum.playlistmarket2.mediateka.data.MIGRATION_1_2
 import com.practicum.playlistmarket2.mediateka.data.MIGRATION_2_3
+import com.practicum.playlistmarket2.mediateka.data.MIGRATION_3_4
 import com.practicum.playlistmarket2.search.data.impl.HistoryDataSourceImpl
 import com.practicum.playlistmarket2.search.data.network.TrackItunesApi
 import com.practicum.playlistmarket2.search.domain.api.HistoryDataSource
@@ -64,7 +65,7 @@ val dataModule = module {
 
     single {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
-            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
             .build()
     }
 

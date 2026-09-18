@@ -8,7 +8,7 @@ import com.practicum.playlistmarket2.domain.models.Playlist
 import com.practicum.playlistmarket2.domain.models.Track
 
 class BottomSheetAdapter(
-    private val playlistList: List<Playlist>,
+    private var playlistList: List<Playlist>,
     private val clickOnPlaylist: (Playlist) -> Unit)
     : RecyclerView.Adapter<BottomSheetViewHolder> () {
     override fun onCreateViewHolder(
@@ -35,6 +35,11 @@ class BottomSheetAdapter(
 
     override fun getItemCount(): Int {
         return playlistList.size
+    }
+
+    fun updateData(newPlaylists: List<Playlist>) {
+        this.playlistList = newPlaylists
+        notifyDataSetChanged()
     }
 
 }

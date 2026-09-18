@@ -45,4 +45,24 @@
         <item quantity="many">%d tracks</item>
         <item quantity="other">%d track</item>
     </plurals>
+    <string name="delete_track">Do you want to delete track?</string>
+    <string name="answer_yes">YES</string>
+    <string name="answer_nope">NO</string>
+    <string name="empty_playlist">This playlist does not have a tracklist that can be shared</string>
+    <string name="share_bottom">Share</string>
+    <string name="edit_info_bottom">Edit information</string>
+    <string name="delete_playlist_bottom">Delete playlist</string>
+    <string name="delete_playlist">Do you want to delete the playlist?</string>
+    <string name="delete">Delete</string>
+    <string name="edit_title">Edit</string>
+    <string name="save_button">Save</string>
+    <plurals name="tracks_time">
+        <item quantity="one">%d minute</item>
+        <item quantity="few">%d minutes</item>
+        <item quantity="many">%d minutes</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <string name="no_tracks">You don\'t have any tracks in this playlist</string>
+
+
 </resources>

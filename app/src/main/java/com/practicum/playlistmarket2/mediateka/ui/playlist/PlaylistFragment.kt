@@ -10,8 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.practicum.playlistmarket2.R
 import com.practicum.playlistmarket2.databinding.PlaylistsFragmentBinding
 import com.practicum.playlistmarket2.mediateka.domain.api.PlaylistState
-import com.practicum.playlistmarket2.mediateka.ui.playlist.PlaylistViewModel
-import com.practicum.playlistmarket2.player.ui.TrackFragment
+import com.practicum.playlistmarket2.mediateka.ui.one_playlist.ChoosePlaylistFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistFragment: Fragment() {
@@ -36,8 +35,18 @@ class PlaylistFragment: Fragment() {
             render(state)
         }
 
+        viewModel.observeIntent().observe(viewLifecycleOwner){playlist ->
+            if(playlist != null){
+                findNavController().navigate(R.id.action_mediaFragment_to_choosePlaylistFragment,
+                    ChoosePlaylistFragment.createArgs(playlist))
+                viewModel.cleanIntent()
+            }
+        }
+
         binding.recyclerViewPlaylist.layoutManager = GridLayoutManager(requireContext(), 2)
-        playlistAdapter = PlaylistAdapter(viewModel.playlistList)
+        playlistAdapter = PlaylistAdapter(viewModel.playlistList){playlist ->
+            viewModel.openPlaylist(playlist)
+        }
         binding.recyclerViewPlaylist.adapter = playlistAdapter
 
         binding.newPlaylistButton.setOnClickListener {

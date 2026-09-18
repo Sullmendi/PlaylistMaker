@@ -17,6 +17,10 @@ class PlaylistInteractorImpl(private val repository: PlaylistRepository): Playli
         repository.updatePlaylist(playlist)
     }
 
+    override suspend fun deletePlaylist(playlist: Playlist) {
+        repository.deletePlaylist(playlist)
+    }
+
     override fun getPlaylists(): Flow<List<Playlist>> {
         return repository.getAllPlaylists()
     }
@@ -27,8 +31,19 @@ class PlaylistInteractorImpl(private val repository: PlaylistRepository): Playli
     ): TrackAddedState {
         return repository.addTrackToPlaylist(track,playlist)
     }
+    override suspend fun deleteTrackFromPlaylist(track: Track, playlist: Playlist): Playlist {
+        return repository.deleteTrackFromPlaylist(track,playlist)
+    }
 
     override suspend fun saveImageToPrivateStorage(uri: Uri): String {
         return repository.saveImageToPrivateStorage(uri)
+    }
+
+    override suspend fun getPlaylistById(playlistId: Long): Playlist {
+        return repository.getPlaylistById(playlistId)
+    }
+
+    override fun getTracksForPlaylist(playlistId: Long): Flow<List<Track>> {
+        return repository.getTracksForPlaylist(playlistId)
     }
 }

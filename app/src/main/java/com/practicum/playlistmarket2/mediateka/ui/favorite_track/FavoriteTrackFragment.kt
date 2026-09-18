@@ -45,9 +45,9 @@ class FavoriteTrackFragment: Fragment() {
         }
 
         binding.recyclerViewFavoriteTrack.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        trackAdapter = TrackAdapter(viewModel.favoriteTrackList) { track ->
+        trackAdapter = TrackAdapter(emptyList(),{track ->
             viewModel.openTrack(track)
-        }
+        })
         binding.recyclerViewFavoriteTrack.adapter = trackAdapter
 
     }
@@ -65,7 +65,7 @@ class FavoriteTrackFragment: Fragment() {
             }
 
             is FavoriteTrackState.Content -> {
-                trackAdapter.notifyDataSetChanged()
+                trackAdapter.updateData(state.trackList)
                 binding.apply {
                     emptyFavoriteText.visibility = View.GONE
                     emptyFavoriteImage.visibility = View.GONE

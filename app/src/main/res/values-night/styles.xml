@@ -85,7 +85,7 @@
     </style>
 
     <style name="trackDot">
-        <item name="backgroundTint">@color/white</item>
+        <item name="android:tint">@color/white</item>
         <item name="android:layout_gravity">end|center_vertical</item>
     </style>
 

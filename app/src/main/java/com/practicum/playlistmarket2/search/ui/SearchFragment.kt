@@ -58,14 +58,14 @@ class SearchFragment: Fragment() {
             binding.recyclerViewTrack.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             binding.recyclerHistoryViewTrack.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-            trackAdapter = TrackAdapter(viewModel.trackList) { track ->
+            trackAdapter = TrackAdapter(emptyList(), { track ->
                 viewModel.openTrack(track)
-            }
+            } )
             binding.recyclerViewTrack.adapter = trackAdapter
 
-            historyTrackAdapter = TrackAdapter(viewModel.historyTrackList) { track ->
+            historyTrackAdapter = TrackAdapter(emptyList(), { track ->
                 viewModel.openTrack(track)
-            }
+            } )
             binding.recyclerHistoryViewTrack.adapter = historyTrackAdapter
 
             binding.clearIcon.setOnClickListener {
@@ -135,9 +135,7 @@ class SearchFragment: Fragment() {
                         progressBar.visibility = View.GONE
                 }
                 showHistoryVisible(false)
-                    viewModel.trackList.clear()
-                    viewModel.trackList.addAll(state.trackList)
-                    trackAdapter.notifyDataSetChanged()
+                    trackAdapter.updateData(state.trackList)
                 }
                 is SearchState.Error -> {
                     binding.apply {
@@ -163,9 +161,7 @@ class SearchFragment: Fragment() {
                     showHistoryVisible(false)
                 }
                 is SearchState.History -> {
-                    viewModel.historyTrackList.clear()
-                    viewModel.historyTrackList.addAll(state.historyTrackList)
-                    historyTrackAdapter.notifyDataSetChanged()
+                    historyTrackAdapter.updateData(state.historyTrackList)
                     binding.apply {
                         progressBar.visibility = View.GONE
                         placeholderMessage.visibility = View.GONE

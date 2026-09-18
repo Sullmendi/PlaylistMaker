@@ -42,12 +42,10 @@ init {
     }
 
     fun showResults(tracks: List<Track>){
-        favoriteTrackList.clear()
-        favoriteTrackList.addAll(tracks)
-        if(favoriteTrackList.isEmpty()){
+        if(tracks.isEmpty()){
             renderState(FavoriteTrackState.Empty)
         } else{
-            renderState(FavoriteTrackState.Content(favoriteTrackList))
+            renderState(FavoriteTrackState.Content(tracks))
         }
     }
 
